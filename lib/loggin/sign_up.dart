@@ -1,9 +1,14 @@
+import 'dart:convert';
+import 'dart:async';
 import 'package:every/loggin/UserInfo.dart';
 import 'package:every/style.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:http/http.dart' as http;
+
+String url = "localhost:8080";
 
 class sign_up extends StatefulWidget {
   const sign_up({super.key});
@@ -13,14 +18,14 @@ class sign_up extends StatefulWidget {
 }
 
 class _Sign_up extends State<sign_up> {
-  bool? Agree1;
-  bool? Agree2;
+  bool? Agree1;//개인정보 수집동의
+  bool? Agree2;//이용약관 동의
   bool? _isButtonEnabled;
 
   @override
   void initState() {
-    Agree1 = false;
-    Agree2 = false;
+    Agree1 = false; 
+    Agree2 = false; 
     _isButtonEnabled = false;
   }
 
@@ -62,6 +67,7 @@ class _Sign_up extends State<sign_up> {
               height: 10,
             ),
             Row(
+              //개인정보 수집동의
               children: [
                 Material(
                   type: MaterialType.transparency,
@@ -100,6 +106,7 @@ class _Sign_up extends State<sign_up> {
               height: 10,
             ),
             Row(
+              //이용약관 동의
               children: [
                 Material(
                     type: MaterialType.transparency,
@@ -142,6 +149,20 @@ class _Sign_up extends State<sign_up> {
                 children: [
                   ElevatedButton(
                       onPressed: () {
+                        //Map data = {
+                        //  "agree1" : "Agree2",
+                        //  "agree2" : "Agree2",
+                        //};
+                        //var body = jsonEncode(data);
+                        //print(body);
+                        //Map<String,String> headers = {
+                        //  "Accept": "application/json",
+                        //  "content-type": "application/json",
+                        //};
+                        //http.Response _res = await http.post(Uri.parse("http://localhost:8080/sign_up"), 
+                        //    headers: headers,
+                        //    body: body
+                        //    );
                         Navigator.of(context).push(MaterialPageRoute(
                           builder: (context) => const UserInfo(),
                         ));

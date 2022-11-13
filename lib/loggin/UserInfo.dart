@@ -1,10 +1,12 @@
+import 'dart:convert';
+
 import 'package:every/home/home.dart';
 import 'package:every/loggin/sign_up.dart';
 import 'package:every/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
-
+import 'package:http/http.dart' as http;
 class UserInfo extends StatefulWidget {
   const UserInfo({super.key});
 
@@ -13,6 +15,12 @@ class UserInfo extends StatefulWidget {
 }
 
 class _UserInfoState extends State<UserInfo> {
+  final nicController = TextEditingController();
+  final nameController = TextEditingController();
+  final numController = TextEditingController();
+  final pas1Controller = TextEditingController();
+  final pas2Controller = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -93,6 +101,7 @@ class _UserInfoState extends State<UserInfo> {
                   child: Flexible(
                     child: TextField(
                       decoration: InputDecoration(border: OutlineInputBorder()),
+                      controller: nameController,
                     ),
                   ),
                 ),
@@ -110,6 +119,7 @@ class _UserInfoState extends State<UserInfo> {
                   child: Flexible(
                     child: TextField(
                       decoration: InputDecoration(border: OutlineInputBorder()),
+                      controller: nicController,
                     ),
                   ),
                 ),
@@ -127,6 +137,7 @@ class _UserInfoState extends State<UserInfo> {
                   child: Flexible(
                     child: TextField(
                       decoration: InputDecoration(border: OutlineInputBorder()),
+                      controller: numController,
                     ),
                   ),
                 ),
@@ -144,6 +155,7 @@ class _UserInfoState extends State<UserInfo> {
                   child: Flexible(
                     child: TextField(
                       decoration: InputDecoration(border: OutlineInputBorder()),
+                      controller: pas1Controller,
                     ),
                   ),
                 ),
@@ -161,6 +173,7 @@ class _UserInfoState extends State<UserInfo> {
                   child: Flexible(
                     child: TextField(
                       decoration: InputDecoration(border: OutlineInputBorder()),
+                      controller: pas2Controller,
                     ),
                   ),
                 ),
@@ -188,7 +201,24 @@ class _UserInfoState extends State<UserInfo> {
                       ),
                       style: ElevatedButton.styleFrom(primary: Colors.grey)),
                   ElevatedButton(
-                      onPressed: () {
+                      onPressed: () async{
+                        Map data = {
+                          "Id": Text(nameController.text),
+                          "nicname": Text(nicController.text),
+                          "num": Text(numController.text),
+                          "pas1": Text(pas1Controller.text),
+                          "pas2": Text(pas2Controller.text),
+                        };
+                        var body = jsonEncode(data);  
+                        print(body);
+                        Map<String,String> headers = {
+                          "Accept": "application/json",
+                          "content-type": "application/json",
+                        };
+                        http.Response _res = await http.post(Uri.parse("http://localhost:8080/sign_up"), 
+                            headers: headers,
+                            body: body
+                            );
                         Navigator.pushAndRemoveUntil(context,
                             MaterialPageRoute(builder: (BuildContext context) {
                           return home();
