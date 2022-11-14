@@ -148,24 +148,25 @@ class _Sign_up extends State<sign_up> {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   ElevatedButton(
-                      onPressed: () {
-                        //Map data = {
-                        //  "agree1" : "Agree2",
-                        //  "agree2" : "Agree2",
-                        //};
-                        //var body = jsonEncode(data);
-                        //print(body);
-                        //Map<String,String> headers = {
-                        //  "Accept": "application/json",
-                        //  "content-type": "application/json",
-                        //};
-                        //http.Response _res = await http.post(Uri.parse("http://localhost:8080/sign_up"), 
-                        //    headers: headers,
-                        //    body: body
-                        //    );
-                        Navigator.of(context).push(MaterialPageRoute(
+                      onPressed: () async{
+                        Map data = {
+                          "agree1" : Agree1,
+                          "agree2" : Agree2,
+                        };
+                        var body = jsonEncode(data);
+                        Map<String,String> headers = {
+                          "Accept": "application/json",
+                          "content-type": "application/json",
+                        };
+                        http.Response _res = await http.post(Uri.parse("http://localhost:8080/agree"),
+                            headers: headers,
+                            body: body
+                            );
+                            if(_res.body == "ok"){
+                               Navigator.of(context).push(MaterialPageRoute(
                           builder: (context) => const UserInfo(),
-                        ));
+                             ));
+                          }
                       },
                       child: SizedBox(
                           height: 40,

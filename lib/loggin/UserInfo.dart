@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:every/home/home.dart';
+import 'package:every/loggin/log.dart';
 import 'package:every/loggin/sign_up.dart';
 import 'package:every/style.dart';
 import 'package:flutter/material.dart';
@@ -203,14 +204,13 @@ class _UserInfoState extends State<UserInfo> {
                   ElevatedButton(
                       onPressed: () async{
                         Map data = {
-                          "Id": Text(nameController.text),
-                          "nicname": Text(nicController.text),
-                          "num": Text(numController.text),
-                          "pas1": Text(pas1Controller.text),
-                          "pas2": Text(pas2Controller.text),
+                          "name": nameController.text,
+                          "nicname": nicController.text,
+                          "num": numController.text,
+                          "pas1": pas1Controller.text,
+                          "pas2": pas2Controller.text,
                         };
                         var body = jsonEncode(data);  
-                        print(body);
                         Map<String,String> headers = {
                           "Accept": "application/json",
                           "content-type": "application/json",
@@ -219,12 +219,10 @@ class _UserInfoState extends State<UserInfo> {
                             headers: headers,
                             body: body
                             );
-                        Navigator.pushAndRemoveUntil(context,
-                            MaterialPageRoute(builder: (BuildContext context) {
-                          return home();
-                        }), (r) {
-                          return false;
-                        });
+                        if(_res.body == "next"){
+                      Navigator.pushReplacement(context,
+                      MaterialPageRoute(builder: (context) =>log_in()));
+                        }
                       },
                       child: SizedBox(
                         child: const Center(

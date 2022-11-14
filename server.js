@@ -4,7 +4,11 @@ const app = express();
 const methodOverride = require('method-override');
 const bodyParser = require('body-parser');
 const { request } = require('express');
+app.use(express.json());
 
+app.use(express.urlencoded({
+  extended: true
+}));
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(methodOverride('_method'));
 app.set('view engine','html');  
@@ -63,12 +67,33 @@ app.get('/hinggu',(req,res)=>{
 
 app.post('/agree',(req,res)=>{
     console.log(req.body);  
-    res.json('이게 맞나?');
+    if(req.body.agree1&req.body.agree2){
+        res.send("ok");
+    }
 });
 app.post('/sign_up',(req,res)=>{
     
     console.log(req.body);
-    if(req.body.pas1 == req.body.pas2) {
-        db.collection('LogIn').insertOne({id: req.body.Id,nic:req.body.nicname,num:req.body.num,pas1:req.body.pas1})
+    if(req.body.Id!=''&req.body.nicname!=''&req.body.num!=''&req.body.pas1!=''){
+        if(req.body.pas1 == req.body.pas2) {
+            db.collection('LogIn').insertOne({name: req.body.name,nic:req.body.nicname,num:req.body.num,pas:req.body.pas1})
+            res.send("next");
+        }
     }
+});
+app.post('/log_in',(req,res)=>{
+    
+    console.log(req.body);
+    db.collection('LogIn').find({num:req.body.num,pas:req.body.pas}).toArray((err,result)=>{
+        if(err||result == ''){
+            res.send("no");
+            console.log(1);
+        }
+        else{
+            res.send("yes");
+            console.log(result);
+            res.json(result);
+            
+        }
+    });
 });
