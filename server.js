@@ -86,14 +86,22 @@ app.post('/log_in',(req,res)=>{
     console.log(req.body);
     db.collection('LogIn').find({num:req.body.num,pas:req.body.pas}).toArray((err,result)=>{
         if(err||result == ''){
-            res.send("no");
-            console.log(1);
+            res.status(404).send('비밀번호가 일치하지 않습니다.'); 
         }
         else{
-            res.send("yes");
-            console.log(result);
-            res.json(result);
-            
+            const jwt = require('jsonwebtoken');
+            const key = 'token';    
+            const token = jwt.sign({num:req.body.num,pas:req.body.pas},key); // jwt.sign으로 3가지 인자를 token 담아 클라이언트에게 넘겨준다.
+            res.status(200).send({ token });
         }
     });
 });
+//app.post('/test',(req,res)=>{
+//    const jwt = require('jsonwebtoken');
+//    const key = 'token';    
+//    const token = jwt.sign({num:'awd',pas:'awd'},key);
+//    console.log(token);
+//    const decoded = jwt.verify(token, key) ;
+//    console.log(decoded);
+//    console.log(new Date(decoded.iat * 1000).toLocaleString());
+//});

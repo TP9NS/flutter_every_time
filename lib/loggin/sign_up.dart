@@ -7,8 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:http/http.dart' as http;
-
-String url = "localhost:8080";
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class sign_up extends StatefulWidget {
   const sign_up({super.key});
@@ -18,14 +17,14 @@ class sign_up extends StatefulWidget {
 }
 
 class _Sign_up extends State<sign_up> {
-  bool? Agree1;//개인정보 수집동의
-  bool? Agree2;//이용약관 동의
+  bool? Agree1; //개인정보 수집동의
+  bool? Agree2; //이용약관 동의
   bool? _isButtonEnabled;
 
   @override
   void initState() {
-    Agree1 = false; 
-    Agree2 = false; 
+    Agree1 = false;
+    Agree2 = false;
     _isButtonEnabled = false;
   }
 
@@ -148,25 +147,25 @@ class _Sign_up extends State<sign_up> {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   ElevatedButton(
-                      onPressed: () async{
+                      onPressed: () async {
                         Map data = {
-                          "agree1" : Agree1,
-                          "agree2" : Agree2,
+                          "agree1": Agree1,
+                          "agree2": Agree2,
                         };
                         var body = jsonEncode(data);
-                        Map<String,String> headers = {
+                        Map<String, String> headers = {
                           "Accept": "application/json",
                           "content-type": "application/json",
                         };
-                        http.Response _res = await http.post(Uri.parse("http://localhost:8080/agree"),
+                        http.Response _res = await http.post(
+                            Uri.parse(dotenv.get('BASE_URL') + "agree"),
                             headers: headers,
-                            body: body
-                            );
-                            if(_res.body == "ok"){
-                               Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => const UserInfo(),
-                             ));
-                          }
+                            body: body);
+                        if (_res.body == "ok") {
+                          Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => const UserInfo(),
+                          ));
+                        }
                       },
                       child: SizedBox(
                           height: 40,

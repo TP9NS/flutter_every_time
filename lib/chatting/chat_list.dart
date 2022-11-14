@@ -15,8 +15,8 @@ import 'package:every/home/home.dart';
 import 'package:every/setting/setting.dart';
 
 class chat_list extends StatefulWidget {
-  const chat_list({super.key});
-
+  final token;
+  const chat_list(this.token, {Key? key}) : super(key: key);
   @override
   State<chat_list> createState() => _chat_list();
 }
@@ -48,7 +48,7 @@ class _chat_list extends State<chat_list> {
                     onPressed: () {
                       Navigator.pushAndRemoveUntil(context,
                           MaterialPageRoute(builder: (BuildContext context) {
-                        return board_list();
+                        return board_list(widget.token);
                       }), (r) {
                         return false;
                       });
@@ -64,7 +64,7 @@ class _chat_list extends State<chat_list> {
                       onPressed: () {
                         Navigator.pushAndRemoveUntil(context,
                             MaterialPageRoute(builder: (BuildContext context) {
-                          return home();
+                          return home(widget.token);
                         }), (r) {
                           return false;
                         });
@@ -76,7 +76,7 @@ class _chat_list extends State<chat_list> {
                       onPressed: () {
                         Navigator.pushAndRemoveUntil(context,
                             MaterialPageRoute(builder: (BuildContext context) {
-                          return alert();
+                          return alert(widget.token);
                         }), (r) {
                           return false;
                         });
@@ -88,7 +88,7 @@ class _chat_list extends State<chat_list> {
                       onPressed: () {
                         Navigator.pushAndRemoveUntil(context,
                             MaterialPageRoute(builder: (BuildContext context) {
-                          return setting();
+                          return setting(widget.token);
                         }), (r) {
                           return false;
                         });
@@ -296,7 +296,7 @@ class _chat_list extends State<chat_list> {
                       FloatingActionButton(
                         onPressed: () {
                           Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => random()));
+                              builder: (context) => random(widget.token)));
                         },
                         child: SizedBox(
                             child: const Center(

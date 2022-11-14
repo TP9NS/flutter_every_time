@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:every/home/home.dart';
 import 'package:every/loggin/log.dart';
 import 'package:every/loggin/sign_up.dart';
@@ -8,6 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:http/http.dart' as http;
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+
 class UserInfo extends StatefulWidget {
   const UserInfo({super.key});
 
@@ -202,7 +203,7 @@ class _UserInfoState extends State<UserInfo> {
                       ),
                       style: ElevatedButton.styleFrom(primary: Colors.grey)),
                   ElevatedButton(
-                      onPressed: () async{
+                      onPressed: () async {
                         Map data = {
                           "name": nameController.text,
                           "nicname": nicController.text,
@@ -210,18 +211,20 @@ class _UserInfoState extends State<UserInfo> {
                           "pas1": pas1Controller.text,
                           "pas2": pas2Controller.text,
                         };
-                        var body = jsonEncode(data);  
-                        Map<String,String> headers = {
+                        var body = jsonEncode(data);
+                        Map<String, String> headers = {
                           "Accept": "application/json",
                           "content-type": "application/json",
                         };
-                        http.Response _res = await http.post(Uri.parse("http://localhost:8080/sign_up"), 
+                        http.Response _res = await http.post(
+                            Uri.parse(dotenv.get('BASE_URL') + "sign_up"),
                             headers: headers,
-                            body: body
-                            );
-                        if(_res.body == "next"){
-                      Navigator.pushReplacement(context,
-                      MaterialPageRoute(builder: (context) =>log_in()));
+                            body: body);
+                        if (_res.body == "next") {
+                          Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => log_in()));
                         }
                       },
                       child: SizedBox(

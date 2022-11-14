@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:http/http.dart' as http;
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class log_in extends StatefulWidget {
   const log_in({super.key});
@@ -22,7 +23,6 @@ class _log_inState extends State<log_in> {
   final pasController = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    
     return MaterialApp(
         home: Center(
       child: SizedBox(
@@ -61,7 +61,6 @@ class _log_inState extends State<log_in> {
                     ),
                   ],
                 ),
-                
                 SizedBox(
                   height: 15,
                 ),
@@ -87,28 +86,33 @@ class _log_inState extends State<log_in> {
                 SizedBox(
                   height: 20,
                 ),
-                ElevatedButton(onPressed: ()async{
-                   Map data = {
-                          "num": numController.text,
-                          "pas": pasController.text,
-                        };
-                        var body = jsonEncode(data);  
-                        Map<String,String> headers = {
-                          "Accept": "application/json",
-                          "content-type": "application/json",
-                        };
-                        http.Response _res = await http.post(Uri.parse("http://localhost:8080/log_in"), 
-                            headers: headers,
-                            body: body
-                            );
-                      if(_res.body == "yes"){
-                        Navigator.pushReplacement(context,
-                      MaterialPageRoute(builder: (context) => home())
-                      );}
-                      }, 
-                      child:const Text("로그인"),
-                      style:
-                          ElevatedButton.styleFrom(primary: Colors.grey),),
+                ElevatedButton(
+                  onPressed: () async {
+                    Map data = {
+                      "num": numController.text,
+                      "pas": pasController.text,
+                    };
+                    var body = jsonEncode(data);
+                    Map<String, String> headers = {
+                      "Accept": "application/json",
+                      "content-type": "application/json",
+                    };
+                    http.Response _res = await http.post(
+                        Uri.parse(dotenv.get('BASE_URL') + "log_in"),
+                        headers: headers,
+                        body: body);
+                    if (_res.statusCode == 200) {
+                      final token = _res.body;
+                      Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => home(_res.body)));
+                      //token을 받는 데 이 토큰을 통해 어캐 로그인 유지를 하는 가
+                    }
+                  },
+                  child: const Text("로그인"),
+                  style: ElevatedButton.styleFrom(primary: Colors.grey),
+                ),
                 SizedBox(
                   height: 10,
                 ),
@@ -116,14 +120,15 @@ class _log_inState extends State<log_in> {
                     child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    
                     Padding(
                       padding: const EdgeInsets.only(left: 38),
                       child: ElevatedButton(
                           onPressed: () {
-                            Navigator.pushReplacement(context,
-                            MaterialPageRoute(builder: (context) => sign_up())
-                        );},
+                            Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => sign_up()));
+                          },
                           child: const Text("  회원가입  "),
                           style:
                               ElevatedButton.styleFrom(primary: Colors.grey)),

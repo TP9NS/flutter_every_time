@@ -17,7 +17,8 @@ import 'package:every/home/home.dart';
 import 'package:every/setting/setting.dart';
 
 class alert extends StatefulWidget {
-  const alert({super.key});
+  final token;
+  const alert(this.token, {Key? key}) : super(key: key);
 
   @override
   State<alert> createState() => _alert();
@@ -41,7 +42,7 @@ class _alert extends State<alert> {
                     onPressed: () {
                       Navigator.pushAndRemoveUntil(context,
                           MaterialPageRoute(builder: (BuildContext context) {
-                        return chat_list();
+                        return chat_list(widget.token);
                       }), (r) {
                         return false;
                       });
@@ -57,7 +58,7 @@ class _alert extends State<alert> {
                     onPressed: () {
                       Navigator.pushAndRemoveUntil(context,
                           MaterialPageRoute(builder: (BuildContext context) {
-                        return board_list();
+                        return board_list(widget.token);
                       }), (r) {
                         return false;
                       });
@@ -73,7 +74,7 @@ class _alert extends State<alert> {
                       onPressed: () {
                         Navigator.pushAndRemoveUntil(context,
                             MaterialPageRoute(builder: (BuildContext context) {
-                          return home();
+                          return home(widget.token);
                         }), (r) {
                           return false;
                         });
@@ -90,7 +91,7 @@ class _alert extends State<alert> {
                       onPressed: () {
                         Navigator.pushAndRemoveUntil(context,
                             MaterialPageRoute(builder: (BuildContext context) {
-                          return setting();
+                          return setting(widget.token);
                         }), (r) {
                           return false;
                         });
@@ -171,7 +172,8 @@ class _alert extends State<alert> {
                                   onPressed: () {
                                     Navigator.of(context)
                                         .push(MaterialPageRoute(
-                                      builder: (context) => const add_post(),
+                                      builder: (context) =>
+                                          add_post(widget.token),
                                     ));
                                   },
                                   child: Container(

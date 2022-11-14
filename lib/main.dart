@@ -5,24 +5,24 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 void main() async {
-  String url = "http://localhost:8080/";
+  await dotenv.load(fileName: 'assets/config/.env');
+  String url = dotenv.get('BASE_URL');
   var response = await http.get(Uri.parse(url));
-  var statusCode = response.statusCode; 
-  if(statusCode == 200){
+  var statusCode = response.statusCode;
+  if (statusCode == 200) {
     var responseHeaders = response.headers;
-  var responseBody = utf8.decode(response.bodyBytes);
+    var responseBody = utf8.decode(response.bodyBytes);
 
-  print("statusCode: ${statusCode}");
-  print("responseHeaders: ${responseHeaders}");
-  print("responseBody: ${responseBody}");
-  }
-  else {
+    print("statusCode: ${statusCode}");
+    print("responseHeaders: ${responseHeaders}");
+    print("responseBody: ${responseBody}");
+  } else {
     print('응답 안댐');
   }
-  
+
   runApp(const MyApp());
 }
 

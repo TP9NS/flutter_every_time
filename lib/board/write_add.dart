@@ -6,7 +6,8 @@ import 'package:flutter/src/widgets/framework.dart';
 
 //12
 class write_add extends StatefulWidget {
-  const write_add({super.key});
+  final token;
+  const write_add(this.token, {Key? key}) : super(key: key);
 
   @override
   State<write_add> createState() => _write_add();
@@ -66,7 +67,8 @@ class _write_add extends State<write_add> {
                                       Navigator.of(context).pop(
                                           MaterialPageRoute(
                                               builder: (context) =>
-                                                  const Board_list_free()));
+                                                  Board_list_free(
+                                                      widget.token)));
                                     },
                                     child: Icon(
                                       Icons.chevron_left_rounded,

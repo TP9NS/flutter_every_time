@@ -15,11 +15,9 @@ import 'package:every/ALERT/alert.dart';
 import 'package:every/setting/setting.dart';
 import 'package:http/http.dart' as http;
 
-
 class home extends StatefulWidget {
-  
-  const home({super.key});
-
+  final token;
+  const home(this.token, {Key? key}) : super(key: key);
   @override
   State<home> createState() => _home();
 }
@@ -40,9 +38,12 @@ class _home extends State<home> {
                 children: [
                   IconButton(
                     onPressed: () {
+                      print("Awdawdawd");
+
+                      print(widget.token);
                       Navigator.pushAndRemoveUntil(context,
                           MaterialPageRoute(builder: (BuildContext context) {
-                        return chat_list();
+                        return chat_list(widget.token);
                       }), (r) {
                         return false;
                       });
@@ -58,7 +59,7 @@ class _home extends State<home> {
                     onPressed: () {
                       Navigator.pushAndRemoveUntil(context,
                           MaterialPageRoute(builder: (BuildContext context) {
-                        return board_list();
+                        return board_list(widget.token);
                       }), (r) {
                         return false;
                       });
@@ -79,7 +80,7 @@ class _home extends State<home> {
                       onPressed: () {
                         Navigator.pushAndRemoveUntil(context,
                             MaterialPageRoute(builder: (BuildContext context) {
-                          return alert();
+                          return alert(widget.token);
                         }), (r) {
                           return false;
                         });
@@ -91,7 +92,7 @@ class _home extends State<home> {
                       onPressed: () {
                         Navigator.pushAndRemoveUntil(context,
                             MaterialPageRoute(builder: (BuildContext context) {
-                          return setting();
+                          return setting(widget.token);
                         }), (r) {
                           return false;
                         });
@@ -376,7 +377,8 @@ class _home extends State<home> {
                                     onPressed: () {
                                       Navigator.of(context)
                                           .push(MaterialPageRoute(
-                                        builder: (context) => const add_post(),
+                                        builder: (context) =>
+                                            add_post(widget.token),
                                       ));
                                     },
                                     child: Container(

@@ -16,7 +16,8 @@ import 'package:every/home/home.dart';
 import 'package:every/setting/setting.dart';
 
 class drink_beer extends StatefulWidget {
-  const drink_beer({super.key});
+  final token;
+  const drink_beer(this.token, {Key? key}) : super(key: key);
 
   @override
   State<drink_beer> createState() => _drink_beer();
@@ -47,7 +48,7 @@ class _drink_beer extends State<drink_beer> {
                     onPressed: () {
                       Navigator.pushAndRemoveUntil(context,
                           MaterialPageRoute(builder: (BuildContext context) {
-                        return chat_list();
+                        return chat_list(widget.token);
                       }), (r) {
                         return false;
                       });
@@ -63,7 +64,7 @@ class _drink_beer extends State<drink_beer> {
                     onPressed: () {
                       Navigator.pushAndRemoveUntil(context,
                           MaterialPageRoute(builder: (BuildContext context) {
-                        return board_list();
+                        return board_list(widget.token);
                       }), (r) {
                         return false;
                       });
@@ -78,7 +79,7 @@ class _drink_beer extends State<drink_beer> {
                       onPressed: () {
                         Navigator.pushAndRemoveUntil(context,
                             MaterialPageRoute(builder: (BuildContext context) {
-                          return home();
+                          return home(widget.token);
                         }), (r) {
                           return false;
                         });
@@ -90,7 +91,7 @@ class _drink_beer extends State<drink_beer> {
                       onPressed: () {
                         Navigator.pushAndRemoveUntil(context,
                             MaterialPageRoute(builder: (BuildContext context) {
-                          return alert();
+                          return alert(widget.token);
                         }), (r) {
                           return false;
                         });
@@ -102,7 +103,7 @@ class _drink_beer extends State<drink_beer> {
                       onPressed: () {
                         Navigator.pushAndRemoveUntil(context,
                             MaterialPageRoute(builder: (BuildContext context) {
-                          return setting();
+                          return setting(widget.token);
                         }), (r) {
                           return false;
                         });
@@ -146,7 +147,7 @@ class _drink_beer extends State<drink_beer> {
                             Navigator.pushAndRemoveUntil(context,
                                 MaterialPageRoute(
                                     builder: (BuildContext context) {
-                              return board_list();
+                              return board_list(widget.token);
                             }), (r) {
                               return false;
                             });
@@ -218,7 +219,8 @@ class _drink_beer extends State<drink_beer> {
                                   onPressed: () {
                                     Navigator.of(context)
                                         .push(MaterialPageRoute(
-                                      builder: (context) => const add_post(),
+                                      builder: (context) =>
+                                          add_post(widget.token),
                                     ));
                                   },
                                   child: Container(
@@ -294,7 +296,7 @@ class _drink_beer extends State<drink_beer> {
                       FloatingActionButton(
                         onPressed: () {
                           Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => write_add()));
+                              builder: (context) => write_add(widget.token)));
                         },
                         child: SizedBox(
                             child: const Center(

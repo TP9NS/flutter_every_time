@@ -16,7 +16,8 @@ import 'package:every/home/home.dart';
 import 'package:every/setting/setting.dart';
 
 class my_comment extends StatefulWidget {
-  const my_comment({super.key});
+  final token;
+  const my_comment(this.token, {Key? key}) : super(key: key);
 
   @override
   State<my_comment> createState() => _my_comment();
@@ -47,7 +48,7 @@ class _my_comment extends State<my_comment> {
                     onPressed: () {
                       Navigator.pushAndRemoveUntil(context,
                           MaterialPageRoute(builder: (BuildContext context) {
-                        return chat_list();
+                        return chat_list(widget.token);
                       }), (r) {
                         return false;
                       });
@@ -63,7 +64,7 @@ class _my_comment extends State<my_comment> {
                     onPressed: () {
                       Navigator.pushAndRemoveUntil(context,
                           MaterialPageRoute(builder: (BuildContext context) {
-                        return board_list();
+                        return board_list(widget.token);
                       }), (r) {
                         return false;
                       });
@@ -78,7 +79,7 @@ class _my_comment extends State<my_comment> {
                       onPressed: () {
                         Navigator.pushAndRemoveUntil(context,
                             MaterialPageRoute(builder: (BuildContext context) {
-                          return home();
+                          return home(widget.token);
                         }), (r) {
                           return false;
                         });
@@ -90,7 +91,7 @@ class _my_comment extends State<my_comment> {
                       onPressed: () {
                         Navigator.pushAndRemoveUntil(context,
                             MaterialPageRoute(builder: (BuildContext context) {
-                          return alert();
+                          return alert(widget.token);
                         }), (r) {
                           return false;
                         });
@@ -102,7 +103,7 @@ class _my_comment extends State<my_comment> {
                       onPressed: () {
                         Navigator.pushAndRemoveUntil(context,
                             MaterialPageRoute(builder: (BuildContext context) {
-                          return setting();
+                          return setting(widget.token);
                         }), (r) {
                           return false;
                         });
@@ -146,7 +147,7 @@ class _my_comment extends State<my_comment> {
                             Navigator.pushAndRemoveUntil(context,
                                 MaterialPageRoute(
                                     builder: (BuildContext context) {
-                              return board_list();
+                              return board_list(widget.token);
                             }), (r) {
                               return false;
                             });
@@ -218,7 +219,8 @@ class _my_comment extends State<my_comment> {
                                   onPressed: () {
                                     Navigator.of(context)
                                         .push(MaterialPageRoute(
-                                      builder: (context) => const add_post(),
+                                      builder: (context) =>
+                                          add_post(widget.token),
                                     ));
                                   },
                                   child: Container(

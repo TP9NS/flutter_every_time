@@ -6,8 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:every/ALERT/alert.dart';
 
 class setting extends StatefulWidget {
-  const setting({super.key});
-
+  final token;
+  const setting(this.token, {Key? key}) : super(key: key);
   @override
   State<setting> createState() => _setting();
 }
@@ -32,7 +32,7 @@ class _setting extends State<setting> {
                       onPressed: () {
                         Navigator.pushAndRemoveUntil(context,
                             MaterialPageRoute(builder: (BuildContext context) {
-                          return chat_list();
+                          return chat_list(widget.token);
                         }), (r) {
                           return false;
                         });
@@ -48,7 +48,7 @@ class _setting extends State<setting> {
                       onPressed: () {
                         Navigator.pushAndRemoveUntil(context,
                             MaterialPageRoute(builder: (BuildContext context) {
-                          return board_list();
+                          return board_list(widget.token);
                         }), (r) {
                           return false;
                         });
@@ -62,7 +62,7 @@ class _setting extends State<setting> {
                           Navigator.pushAndRemoveUntil(context,
                               MaterialPageRoute(
                                   builder: (BuildContext context) {
-                            return home();
+                            return home(widget.token);
                           }), (r) {
                             return false;
                           });
@@ -75,7 +75,7 @@ class _setting extends State<setting> {
                           Navigator.pushAndRemoveUntil(context,
                               MaterialPageRoute(
                                   builder: (BuildContext context) {
-                            return alert();
+                            return alert(widget.token);
                           }), (r) {
                             return false;
                           });
