@@ -1,3 +1,6 @@
+import 'package:every/loggin/log.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
 import '../board/add_post.dart';
 import '../board/board_list.dart';
 import '../board/board_list/board_list_free.dart';
@@ -17,8 +20,7 @@ import '../home/home.dart';
 import '../setting/setting.dart';
 
 class alert extends StatefulWidget {
-   const alert({super.key});
-
+  const alert({super.key});
 
   @override
   State<alert> createState() => _alert();
@@ -26,7 +28,17 @@ class alert extends StatefulWidget {
 
 class _alert extends State<alert> {
   @override
+  checkToken() async {
+    final prefs = await SharedPreferences.getInstance();
+    final String? token = prefs.getString('token');
+    return token;
+  }
+
   Widget build(BuildContext context) {
+    if (checkToken() == true) {
+      Navigator.of(context)
+          .pushReplacement(MaterialPageRoute(builder: (context) => log_in()));
+    }
     return Center(
       child: Container(
           color: Colors.white,
@@ -172,8 +184,7 @@ class _alert extends State<alert> {
                                   onPressed: () {
                                     Navigator.of(context)
                                         .push(MaterialPageRoute(
-                                      builder: (context) =>
-                                          add_post(),
+                                      builder: (context) => add_post(),
                                     ));
                                   },
                                   child: Container(

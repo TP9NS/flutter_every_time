@@ -3,6 +3,7 @@ import 'package:every/board/board_list.dart';
 import 'package:every/chatting/chat.dart';
 import 'package:every/chatting/chat_message.dart';
 import 'package:every/chatting/random.dart';
+import 'package:every/loggin/log.dart';
 import 'package:every/loggin/sign_up.dart';
 import 'package:every/style.dart';
 import 'package:every/board/write_add.dart';
@@ -13,16 +14,27 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:every/ALERT/alert.dart';
 import 'package:every/home/home.dart';
 import 'package:every/setting/setting.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class chat_list extends StatefulWidget {
-   const chat_list({super.key});
+  const chat_list({super.key});
   @override
   State<chat_list> createState() => _chat_list();
 }
 
 class _chat_list extends State<chat_list> {
   @override
+  checkToken() async {
+    final prefs = await SharedPreferences.getInstance();
+    final String? token = prefs.getString('token');
+    return token;
+  }
+
   Widget build(BuildContext context) {
+    if (checkToken() == true) {
+      Navigator.of(context)
+          .pushReplacement(MaterialPageRoute(builder: (context) => log_in()));
+    }
     return Center(
       child: Container(
           color: Colors.white,

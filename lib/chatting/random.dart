@@ -4,6 +4,7 @@ import 'package:every/board/board_list.dart';
 import 'package:every/chatting/chat.dart';
 import 'package:every/chatting/chat_list.dart';
 import 'package:every/loggin/find_pas.dart';
+import 'package:every/loggin/log.dart';
 import 'package:every/loggin/sign_up.dart';
 import 'package:flutter/material.dart';
 import 'package:every/style.dart';
@@ -12,11 +13,12 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:every/chatting/chat_message.dart';
 import 'package:every/ALERT/alert.dart';
 import 'package:every/setting/setting.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 enum matching { start, stop }
 
 class random extends StatefulWidget {
-   const random({super.key});
+  const random({super.key});
 
   @override
   State<random> createState() => _ramdom();
@@ -26,7 +28,17 @@ matching match_status = matching.stop;
 
 class _ramdom extends State<random> {
   @override
+  checkToken() async {
+    final prefs = await SharedPreferences.getInstance();
+    final String? token = prefs.getString('token');
+    return token;
+  }
+
   Widget build(BuildContext context) {
+    if (checkToken() == true) {
+      Navigator.of(context)
+          .pushReplacement(MaterialPageRoute(builder: (context) => log_in()));
+    }
     void start() {
       setState(() {
         print(match_status.toString());
@@ -152,8 +164,7 @@ class _ramdom extends State<random> {
                             child: IconButton(
                               onPressed: () {
                                 Navigator.of(context).push(MaterialPageRoute(
-                                    builder: (context) =>
-                                        chat_list()));
+                                    builder: (context) => chat_list()));
                               },
                               icon: Icon(
                                 Icons.arrow_forward_ios_outlined,

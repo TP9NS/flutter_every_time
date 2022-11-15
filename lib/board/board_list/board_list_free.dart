@@ -3,6 +3,7 @@ import 'package:every/board/board_list.dart';
 import 'package:every/chatting/chat.dart';
 import 'package:every/chatting/chat_list.dart';
 import 'package:every/chatting/chat_message.dart';
+import 'package:every/loggin/log.dart';
 import 'package:every/loggin/sign_up.dart';
 import 'package:every/style.dart';
 import 'package:every/board/write_add.dart';
@@ -14,9 +15,10 @@ import 'package:every/chatting/chat_list.dart';
 import 'package:every/ALERT/alert.dart';
 import 'package:every/home/home.dart';
 import 'package:every/setting/setting.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Board_list_free extends StatefulWidget {
-   const Board_list_free({super.key});
+  const Board_list_free({super.key});
 
   @override
   State<Board_list_free> createState() => _Board_list_free();
@@ -26,6 +28,12 @@ class _Board_list_free extends State<Board_list_free> {
   late Map<int, Color> heart_color = new Map();
 
   @override
+  checkToken() async {
+    final prefs = await SharedPreferences.getInstance();
+    final String? token = prefs.getString('token');
+    return token;
+  }
+
   void initState() {
     for (int i = 0; i <= 199; i++) {
       heart_color[i] = Colors.grey;
@@ -33,6 +41,10 @@ class _Board_list_free extends State<Board_list_free> {
   }
 
   Widget build(BuildContext context) {
+    if (checkToken() == true) {
+      Navigator.of(context)
+          .pushReplacement(MaterialPageRoute(builder: (context) => log_in()));
+    }
     return Center(
       child: Container(
           color: Colors.white,
@@ -219,8 +231,7 @@ class _Board_list_free extends State<Board_list_free> {
                                   onPressed: () {
                                     Navigator.of(context)
                                         .push(MaterialPageRoute(
-                                      builder: (context) =>
-                                          add_post(),
+                                      builder: (context) => add_post(),
                                     ));
                                   },
                                   child: Container(

@@ -1,9 +1,11 @@
 import 'package:every/board/board_list/board_list_free.dart';
+import 'package:every/loggin/log.dart';
 import 'package:every/style.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 //13
 class edit_post extends StatefulWidget {
@@ -17,12 +19,22 @@ class _edit_post extends State<edit_post> {
   bool? Anon;
   String? Name;
   @override
+  checkToken() async {
+    final prefs = await SharedPreferences.getInstance();
+    final String? token = prefs.getString('token');
+    return token;
+  }
+
   void initState() {
     Anon = true;
     Name = '익명';
   }
 
   Widget build(BuildContext context) {
+    if (checkToken() == true) {
+      Navigator.of(context)
+          .pushReplacement(MaterialPageRoute(builder: (context) => log_in()));
+    }
     return Center(
       child: SizedBox(
           width: Width_size,

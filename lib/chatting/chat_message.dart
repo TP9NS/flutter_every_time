@@ -1,7 +1,9 @@
+import 'package:every/loggin/log.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class chatmessage extends StatelessWidget {
   final String txt;
@@ -12,7 +14,17 @@ class chatmessage extends StatelessWidget {
   }) : super(key: Key);
 
   @override
+  checkToken() async {
+    final prefs = await SharedPreferences.getInstance();
+    final String? token = prefs.getString('token');
+    return token;
+  }
+
   Widget build(BuildContext context) {
+    if (checkToken() == true) {
+      Navigator.of(context)
+          .pushReplacement(MaterialPageRoute(builder: (context) => log_in()));
+    }
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 3.0, vertical: 2.0),
       child: Container(

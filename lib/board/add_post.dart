@@ -1,14 +1,16 @@
 import 'package:every/board/board_list/board_list_free.dart';
 import 'package:every/board/edit_post.dart';
+import 'package:every/loggin/log.dart';
 import 'package:every/style.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 //11페이지
 class add_post extends StatefulWidget {
-   const add_post({super.key});
+  const add_post({super.key});
 
   @override
   State<add_post> createState() => _add_post();
@@ -18,12 +20,22 @@ class _add_post extends State<add_post> {
   bool? Anon;
   String? Name;
   @override
+  checkToken() async {
+    final prefs = await SharedPreferences.getInstance();
+    final String? token = prefs.getString('token');
+    return token;
+  }
+
   void initState() {
     Anon = true;
     Name = '익명';
   }
 
   Widget build(BuildContext context) {
+    if (checkToken() == true) {
+      Navigator.of(context)
+          .pushReplacement(MaterialPageRoute(builder: (context) => log_in()));
+    }
     return Center(
       child: SizedBox(
           width: Width_size,
@@ -84,8 +96,7 @@ class _add_post extends State<add_post> {
                                       Navigator.of(context).pop(
                                           MaterialPageRoute(
                                               builder: (context) =>
-                                                  Board_list_free(
-                                                      )));
+                                                  Board_list_free()));
                                     },
                                     child: Icon(
                                       Icons.chevron_left_rounded,

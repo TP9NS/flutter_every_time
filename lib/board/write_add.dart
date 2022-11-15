@@ -9,29 +9,39 @@ import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-
+import 'package:shared_preferences/shared_preferences.dart';
 
 //12
 class write_add extends StatefulWidget {
-   const write_add({super.key});
+  const write_add({super.key});
 
   @override
   State<write_add> createState() => _write_add();
 }
 
- final titleController = TextEditingController();
- final contentsController = TextEditingController();
+final titleController = TextEditingController();
+final contentsController = TextEditingController();
 
 class _write_add extends State<write_add> {
   bool? Anon;
   String? Name;
   @override
+  checkToken() async {
+    final prefs = await SharedPreferences.getInstance();
+    final String? token = prefs.getString('token');
+    return token;
+  }
+
   void initState() {
     Anon = true;
     Name = '익명';
   }
 
   Widget build(BuildContext context) {
+    if (checkToken() == true) {
+      Navigator.of(context)
+          .pushReplacement(MaterialPageRoute(builder: (context) => log_in()));
+    }
     return Center(
       child: SizedBox(
         width: Width_size,
@@ -76,8 +86,7 @@ class _write_add extends State<write_add> {
                                       Navigator.of(context).pop(
                                           MaterialPageRoute(
                                               builder: (context) =>
-                                                  Board_list_free(
-                                                      )));
+                                                  Board_list_free()));
                                     },
                                     child: Icon(
                                       Icons.chevron_left_rounded,
@@ -199,10 +208,10 @@ class _write_add extends State<write_add> {
                               TextField(
                                 maxLines: 5,
                                 decoration: InputDecoration(
-                                  enabledBorder: InputBorder.none,
-                                  focusedBorder: InputBorder.none,
-                                  hintText: '내용'),
-                                  controller: contentsController,
+                                    enabledBorder: InputBorder.none,
+                                    focusedBorder: InputBorder.none,
+                                    hintText: '내용'),
+                                controller: contentsController,
                               ),
                             ]),
                           )
@@ -217,11 +226,10 @@ class _write_add extends State<write_add> {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   ElevatedButton(
-                      onPressed: ()async {
+                      onPressed: () async {
                         Map data = {
                           "title": titleController.text,
                           "contents": contentsController.text,
-                         
                         };
                         var body = jsonEncode(data);
                         Map<String, String> headers = {

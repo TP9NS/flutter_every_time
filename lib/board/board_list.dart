@@ -10,6 +10,7 @@ import 'package:every/chatting/chat_list.dart';
 import 'package:every/board/board_list/my_comment.dart';
 import 'package:every/board/board_list/my_post.dart';
 import 'package:every/chatting/random.dart';
+import 'package:every/loggin/log.dart';
 import 'package:every/style.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -18,6 +19,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:every/ALERT/alert.dart';
 import 'package:every/home/home.dart';
 import 'package:every/setting/setting.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 //목업 9페이지
 class board_list extends StatefulWidget {
@@ -29,7 +31,17 @@ class board_list extends StatefulWidget {
 
 class _Board_list extends State<board_list> {
   @override
+  checkToken() async {
+    final prefs = await SharedPreferences.getInstance();
+    final String? token = prefs.getString('token');
+    return token;
+  }
+
   Widget build(BuildContext context) {
+    if (checkToken() == true) {
+      Navigator.of(context)
+          .pushReplacement(MaterialPageRoute(builder: (context) => log_in()));
+    }
     return Center(
       child: Container(
           color: Colors.white,

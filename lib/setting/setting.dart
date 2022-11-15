@@ -1,12 +1,14 @@
 import 'package:every/board/board_list.dart';
 import 'package:every/chatting/chat_list.dart';
 import 'package:every/home/home.dart';
+import 'package:every/loggin/log.dart';
 import 'package:every/style.dart';
 import 'package:flutter/material.dart';
 import 'package:every/ALERT/alert.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class setting extends StatefulWidget {
-   const setting({super.key});
+  const setting({super.key});
   @override
   State<setting> createState() => _setting();
 }
@@ -15,7 +17,17 @@ class _setting extends State<setting> {
   bool isOpen = false;
 
   @override
+  checkToken() async {
+    final prefs = await SharedPreferences.getInstance();
+    final String? token = prefs.getString('token');
+    return token;
+  }
+
   Widget build(BuildContext context) {
+    if (checkToken() == true) {
+      Navigator.of(context)
+          .pushReplacement(MaterialPageRoute(builder: (context) => log_in()));
+    }
     return Center(
         child: Container(
             color: Colors.white,

@@ -3,6 +3,7 @@ import 'package:every/board/board_list.dart';
 import 'package:every/chatting/chat.dart';
 import 'package:every/chatting/chat_message.dart';
 import 'package:every/board/edit_post.dart';
+import 'package:every/loggin/log.dart';
 import 'package:every/loggin/sign_up.dart';
 import 'package:every/style.dart';
 import 'package:every/board/write_add.dart';
@@ -13,10 +14,11 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:every/ALERT/alert.dart';
 import 'package:every/home/home.dart';
 import 'package:every/setting/setting.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 //15
 class my_post extends StatefulWidget {
-   const my_post({super.key});
+  const my_post({super.key});
 
   @override
   State<my_post> createState() => _my_post();
@@ -24,7 +26,17 @@ class my_post extends StatefulWidget {
 
 class _my_post extends State<my_post> {
   @override
+  checkToken() async {
+    final prefs = await SharedPreferences.getInstance();
+    final String? token = prefs.getString('token');
+    return token;
+  }
+
   Widget build(BuildContext context) {
+    if (checkToken() == true) {
+      Navigator.of(context)
+          .pushReplacement(MaterialPageRoute(builder: (context) => log_in()));
+    }
     return Center(
       child: Container(
           color: Colors.white,
@@ -58,24 +70,24 @@ class _my_post extends State<my_post> {
                   ),
                   IconButton(
                       onPressed: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => home()));
+                        Navigator.of(context).push(
+                            MaterialPageRoute(builder: (context) => home()));
                       },
                       icon: Icon(Icons.home, size: 50),
                       padding: EdgeInsets.zero,
                       color: Colors.grey),
                   IconButton(
                       onPressed: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => alert()));
+                        Navigator.of(context).push(
+                            MaterialPageRoute(builder: (context) => alert()));
                       },
                       icon: Icon(Icons.notifications, size: 50),
                       padding: EdgeInsets.zero,
                       color: Colors.grey),
                   IconButton(
                       onPressed: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => setting()));
+                        Navigator.of(context).push(
+                            MaterialPageRoute(builder: (context) => setting()));
                       },
                       icon: Icon(Icons.settings, size: 50),
                       padding: EdgeInsets.zero,
@@ -114,8 +126,7 @@ class _my_post extends State<my_post> {
                         child: OutlinedButton(
                           onPressed: () {
                             Navigator.of(context).pop(MaterialPageRoute(
-                                builder: (context) =>
-                                    board_list()));
+                                builder: (context) => board_list()));
                           },
                           child: Icon(
                             Icons.chevron_left_rounded,
@@ -184,8 +195,7 @@ class _my_post extends State<my_post> {
                                   onPressed: () {
                                     Navigator.of(context)
                                         .push(MaterialPageRoute(
-                                      builder: (context) =>
-                                          add_post(),
+                                      builder: (context) => add_post(),
                                     ));
                                   },
                                   child: Container(

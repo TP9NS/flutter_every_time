@@ -3,6 +3,7 @@ import 'package:every/board/board_list.dart';
 import 'package:every/chatting/chat.dart';
 import 'package:every/chatting/chat_list.dart';
 import 'package:every/chatting/chat_message.dart';
+import 'package:every/loggin/log.dart';
 import 'package:every/loggin/sign_up.dart';
 import 'package:every/style.dart';
 import 'package:every/board/write_add.dart';
@@ -14,9 +15,10 @@ import 'package:every/chatting/chat_list.dart';
 import 'package:every/ALERT/alert.dart';
 import 'package:every/home/home.dart';
 import 'package:every/setting/setting.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class taxi extends StatefulWidget {
-   const taxi({super.key});
+  const taxi({super.key});
 
   @override
   State<taxi> createState() => _taxi();
@@ -25,6 +27,12 @@ class taxi extends StatefulWidget {
 class _taxi extends State<taxi> {
   late Map<int, Color> heart_color = new Map();
   @override
+  checkToken() async {
+    final prefs = await SharedPreferences.getInstance();
+    final String? token = prefs.getString('token');
+    return token;
+  }
+
   void initState() {
     for (int i = 0; i <= 199; i++) {
       heart_color[i] = Colors.grey;
@@ -32,6 +40,10 @@ class _taxi extends State<taxi> {
   }
 
   Widget build(BuildContext context) {
+    if (checkToken() == true) {
+      Navigator.of(context)
+          .pushReplacement(MaterialPageRoute(builder: (context) => log_in()));
+    }
     return Center(
       child: Container(
           color: Colors.white,
@@ -218,8 +230,7 @@ class _taxi extends State<taxi> {
                                   onPressed: () {
                                     Navigator.of(context)
                                         .push(MaterialPageRoute(
-                                      builder: (context) =>
-                                          add_post(),
+                                      builder: (context) => add_post(),
                                     ));
                                   },
                                   child: Container(

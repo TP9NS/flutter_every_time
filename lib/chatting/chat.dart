@@ -1,9 +1,11 @@
 import 'package:every/chatting/chat_message.dart';
+import 'package:every/loggin/log.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:logger/logger.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Chat extends StatefulWidget {
   const Chat({super.key});
@@ -17,7 +19,17 @@ List<chatmessage> _chat = [];
 class _Chat extends State<Chat> {
   TextEditingController _textEditingController = TextEditingController();
   @override
+  checkToken() async {
+    final prefs = await SharedPreferences.getInstance();
+    final String? token = prefs.getString('token');
+    return token;
+  }
+
   Widget build(BuildContext context) {
+    if (checkToken() == true) {
+      Navigator.of(context)
+          .pushReplacement(MaterialPageRoute(builder: (context) => log_in()));
+    }
     return Center(
       child: Container(
         width: 380,
