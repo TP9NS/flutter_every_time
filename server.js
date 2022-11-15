@@ -86,6 +86,8 @@ app.post('/log_in',(req,res)=>{
     
     console.log(req.body);
     db.collection('LogIn').find({num:req.body.num,pas:req.body.pas}).toArray((err,result)=>{
+        console.log(result);
+        
         if(err||result == ''){
             res.status(404).send('비밀번호가 일치하지 않습니다.'); 
         }
