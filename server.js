@@ -19,6 +19,7 @@ MongoClient.connect('mongodb+srv://lsmin0828:!@ljs040207!@@every.ilkse02.mongodb
         return console.log(err);
     }
     db = client.db('UserInfo');
+    db = client.db('board');
     db.collection('LogIn').insertOne({name: 'jhon',id:'qwer'},(err,result)=>{
         if(err)
             console.log(err);
@@ -95,6 +96,15 @@ app.post('/log_in',(req,res)=>{
             res.status(200).send({ token });
         }
     });
+});
+app.post('/write_add',(req,res)=>{
+    console.log(req.body);
+    if(req.body.title!=''&req.body.contents!=''){
+        if(req.body.pas1 == req.body.pas2) {
+            db.collection('boardbabmuk').insertOne({title: req.body.title,contents:req.body.contents})
+            res.send("next");
+        }
+    }
 });
 //app.post('/test',(req,res)=>{
 //    const jwt = require('jsonwebtoken');

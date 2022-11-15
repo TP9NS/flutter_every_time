@@ -1,20 +1,20 @@
-import 'package:every/board/add_post.dart';
-import 'package:every/board/board_list.dart';
-import 'package:every/board/board_list/board_list_free.dart';
-import 'package:every/board/board_list/my_post.dart';
-import 'package:every/chatting/chat.dart';
-import 'package:every/chatting/chat_message.dart';
-import 'package:every/chatting/random.dart';
-import 'package:every/loggin/sign_up.dart';
-import 'package:every/style.dart';
-import 'package:every/board/write_add.dart';
+import '../board/add_post.dart';
+import '../board/board_list.dart';
+import '../board/board_list/board_list_free.dart';
+import '../board/board_list/my_post.dart';
+import '../chatting/chat.dart';
+import '../chatting/chat_message.dart';
+import '../chatting/random.dart';
+import '../loggin/sign_up.dart';
+import '../style.dart';
+import '../board/write_add.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:every/chatting/chat_list.dart';
-import 'package:every/home/home.dart';
-import 'package:every/setting/setting.dart';
+import '../chatting/chat_list.dart';
+import '../home/home.dart';
+import '../setting/setting.dart';
 
 class alert extends StatefulWidget {
   final token;

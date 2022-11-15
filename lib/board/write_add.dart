@@ -1,8 +1,15 @@
+import 'dart:convert';
+
+import 'package:every/board/board_list/babmuk.dart';
 import 'package:every/board/board_list/board_list_free.dart';
+import 'package:every/loggin/log.dart';
 import 'package:every/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:http/http.dart' as http;
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+
 
 //12
 class write_add extends StatefulWidget {
@@ -12,6 +19,9 @@ class write_add extends StatefulWidget {
   @override
   State<write_add> createState() => _write_add();
 }
+
+ final titleController = TextEditingController();
+ final contentsController = TextEditingController();
 
 class _write_add extends State<write_add> {
   bool? Anon;
@@ -185,13 +195,15 @@ class _write_add extends State<write_add> {
                                   hintText: '제목',
                                   hintStyle: TextStyle(fontSize: 30),
                                 ),
+                                controller: titleController,
                               ),
                               TextField(
                                 maxLines: 5,
                                 decoration: InputDecoration(
-                                    enabledBorder: InputBorder.none,
-                                    focusedBorder: InputBorder.none,
-                                    hintText: '내용'),
+                                  enabledBorder: InputBorder.none,
+                                  focusedBorder: InputBorder.none,
+                                  hintText: '내용'),
+                                  controller: contentsController,
                               ),
                             ]),
                           )
@@ -206,7 +218,28 @@ class _write_add extends State<write_add> {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   ElevatedButton(
-                      onPressed: () {},
+                      onPressed: ()async {
+                        Map data = {
+                          "title": titleController.text,
+                          "contents": contentsController.text,
+                         
+                        };
+                        var body = jsonEncode(data);
+                        Map<String, String> headers = {
+                          "Accept": "application/json",
+                          "content-type": "application/json",
+                        };
+                        http.Response _res = await http.post(
+                            Uri.parse(dotenv.get('BASE_URL') + "write_add"),
+                            headers: headers,
+                            body: body);
+                        if (_res.body == "next") {
+                          Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => babmuk(widget.token)));
+                        }
+                      },
                       child: SizedBox(
                           height: 40,
                           width: 80,
