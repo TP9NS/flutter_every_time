@@ -16,8 +16,7 @@ import 'package:every/home/home.dart';
 import 'package:every/setting/setting.dart';
 
 class Board_list_free extends StatefulWidget {
-  final token;
-  const Board_list_free(this.token, {Key? key}) : super(key: key);
+   const Board_list_free({super.key});
 
   @override
   State<Board_list_free> createState() => _Board_list_free();
@@ -49,7 +48,7 @@ class _Board_list_free extends State<Board_list_free> {
                     onPressed: () {
                       Navigator.pushAndRemoveUntil(context,
                           MaterialPageRoute(builder: (BuildContext context) {
-                        return chat_list(widget.token);
+                        return chat_list();
                       }), (r) {
                         return false;
                       });
@@ -65,7 +64,7 @@ class _Board_list_free extends State<Board_list_free> {
                     onPressed: () {
                       Navigator.pushAndRemoveUntil(context,
                           MaterialPageRoute(builder: (BuildContext context) {
-                        return board_list(widget.token);
+                        return board_list();
                       }), (r) {
                         return false;
                       });
@@ -80,7 +79,7 @@ class _Board_list_free extends State<Board_list_free> {
                       onPressed: () {
                         Navigator.pushAndRemoveUntil(context,
                             MaterialPageRoute(builder: (BuildContext context) {
-                          return home(widget.token);
+                          return home();
                         }), (r) {
                           return false;
                         });
@@ -92,7 +91,7 @@ class _Board_list_free extends State<Board_list_free> {
                       onPressed: () {
                         Navigator.pushAndRemoveUntil(context,
                             MaterialPageRoute(builder: (BuildContext context) {
-                          return alert(widget.token);
+                          return alert();
                         }), (r) {
                           return false;
                         });
@@ -104,7 +103,7 @@ class _Board_list_free extends State<Board_list_free> {
                       onPressed: () {
                         Navigator.pushAndRemoveUntil(context,
                             MaterialPageRoute(builder: (BuildContext context) {
-                          return setting(widget.token);
+                          return setting();
                         }), (r) {
                           return false;
                         });
@@ -148,7 +147,7 @@ class _Board_list_free extends State<Board_list_free> {
                             Navigator.pushAndRemoveUntil(context,
                                 MaterialPageRoute(
                                     builder: (BuildContext context) {
-                              return board_list(widget.token);
+                              return board_list();
                             }), (r) {
                               return false;
                             });
@@ -221,7 +220,7 @@ class _Board_list_free extends State<Board_list_free> {
                                     Navigator.of(context)
                                         .push(MaterialPageRoute(
                                       builder: (context) =>
-                                          add_post(widget.token),
+                                          add_post(),
                                     ));
                                   },
                                   child: Container(
@@ -297,7 +296,7 @@ class _Board_list_free extends State<Board_list_free> {
                       FloatingActionButton(
                         onPressed: () {
                           Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => write_add(widget.token)));
+                              builder: (context) => write_add()));
                         },
                         child: SizedBox(
                             child: const Center(

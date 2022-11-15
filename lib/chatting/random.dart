@@ -16,8 +16,7 @@ import 'package:every/setting/setting.dart';
 enum matching { start, stop }
 
 class random extends StatefulWidget {
-  final token;
-  const random(this.token, {Key? key}) : super(key: key);
+   const random({super.key});
 
   @override
   State<random> createState() => _ramdom();
@@ -82,7 +81,7 @@ class _ramdom extends State<random> {
                   onPressed: () {
                     Navigator.pushAndRemoveUntil(context,
                         MaterialPageRoute(builder: (BuildContext context) {
-                      return board_list(widget.token);
+                      return board_list();
                     }), (r) {
                       return false;
                     });
@@ -98,7 +97,7 @@ class _ramdom extends State<random> {
                     onPressed: () {
                       Navigator.pushAndRemoveUntil(context,
                           MaterialPageRoute(builder: (BuildContext context) {
-                        return home(widget.token);
+                        return home();
                       }), (r) {
                         return false;
                       });
@@ -110,7 +109,7 @@ class _ramdom extends State<random> {
                     onPressed: () {
                       Navigator.pushAndRemoveUntil(context,
                           MaterialPageRoute(builder: (BuildContext context) {
-                        return alert(widget.token);
+                        return alert();
                       }), (r) {
                         return false;
                       });
@@ -122,7 +121,7 @@ class _ramdom extends State<random> {
                     onPressed: () {
                       Navigator.pushAndRemoveUntil(context,
                           MaterialPageRoute(builder: (BuildContext context) {
-                        return setting(widget.token);
+                        return setting();
                       }), (r) {
                         return false;
                       });
@@ -154,7 +153,7 @@ class _ramdom extends State<random> {
                               onPressed: () {
                                 Navigator.of(context).push(MaterialPageRoute(
                                     builder: (context) =>
-                                        chat_list(widget.token)));
+                                        chat_list()));
                               },
                               icon: Icon(
                                 Icons.arrow_forward_ios_outlined,

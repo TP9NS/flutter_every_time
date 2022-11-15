@@ -16,8 +16,7 @@ import 'package:every/home/home.dart';
 import 'package:every/setting/setting.dart';
 
 class NOTICE extends StatefulWidget {
-  final token;
-  const NOTICE(this.token, {Key? key}) : super(key: key);
+  const NOTICE({super.key});
 
   @override
   State<NOTICE> createState() => _NOTICE();
@@ -48,7 +47,7 @@ class _NOTICE extends State<NOTICE> {
                     onPressed: () {
                       Navigator.pushAndRemoveUntil(context,
                           MaterialPageRoute(builder: (BuildContext context) {
-                        return chat_list(widget.token);
+                        return chat_list();
                       }), (r) {
                         return false;
                       });
@@ -64,7 +63,7 @@ class _NOTICE extends State<NOTICE> {
                     onPressed: () {
                       Navigator.pushAndRemoveUntil(context,
                           MaterialPageRoute(builder: (BuildContext context) {
-                        return board_list(widget.token);
+                        return board_list();
                       }), (r) {
                         return false;
                       });
@@ -79,7 +78,7 @@ class _NOTICE extends State<NOTICE> {
                       onPressed: () {
                         Navigator.pushAndRemoveUntil(context,
                             MaterialPageRoute(builder: (BuildContext context) {
-                          return home(widget.token);
+                          return home();
                         }), (r) {
                           return false;
                         });
@@ -91,7 +90,7 @@ class _NOTICE extends State<NOTICE> {
                       onPressed: () {
                         Navigator.pushAndRemoveUntil(context,
                             MaterialPageRoute(builder: (BuildContext context) {
-                          return alert(widget.token);
+                          return alert();
                         }), (r) {
                           return false;
                         });
@@ -103,7 +102,7 @@ class _NOTICE extends State<NOTICE> {
                       onPressed: () {
                         Navigator.pushAndRemoveUntil(context,
                             MaterialPageRoute(builder: (BuildContext context) {
-                          return setting(widget.token);
+                          return setting();
                         }), (r) {
                           return false;
                         });
@@ -147,7 +146,7 @@ class _NOTICE extends State<NOTICE> {
                             Navigator.pushAndRemoveUntil(context,
                                 MaterialPageRoute(
                                     builder: (BuildContext context) {
-                              return board_list(widget.token);
+                              return board_list();
                             }), (r) {
                               return false;
                             });
@@ -220,7 +219,7 @@ class _NOTICE extends State<NOTICE> {
                                     Navigator.of(context)
                                         .push(MaterialPageRoute(
                                       builder: (context) =>
-                                          add_post(widget.token),
+                                          add_post(),
                                     ));
                                   },
                                   child: Container(
@@ -296,7 +295,7 @@ class _NOTICE extends State<NOTICE> {
                       FloatingActionButton(
                         onPressed: () {
                           Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => write_add(widget.token)));
+                              builder: (context) => write_add()));
                         },
                         child: SizedBox(
                             child: const Center(

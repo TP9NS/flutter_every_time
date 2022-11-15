@@ -16,8 +16,7 @@ import 'package:every/setting/setting.dart';
 
 //15
 class my_post extends StatefulWidget {
-  final token;
-  const my_post(this.token, {Key? key}) : super(key: key);
+   const my_post({super.key});
 
   @override
   State<my_post> createState() => _my_post();
@@ -60,7 +59,7 @@ class _my_post extends State<my_post> {
                   IconButton(
                       onPressed: () {
                         Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => home(widget.token)));
+                            builder: (context) => home()));
                       },
                       icon: Icon(Icons.home, size: 50),
                       padding: EdgeInsets.zero,
@@ -68,7 +67,7 @@ class _my_post extends State<my_post> {
                   IconButton(
                       onPressed: () {
                         Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => alert(widget.token)));
+                            builder: (context) => alert()));
                       },
                       icon: Icon(Icons.notifications, size: 50),
                       padding: EdgeInsets.zero,
@@ -76,7 +75,7 @@ class _my_post extends State<my_post> {
                   IconButton(
                       onPressed: () {
                         Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => setting(widget.token)));
+                            builder: (context) => setting()));
                       },
                       icon: Icon(Icons.settings, size: 50),
                       padding: EdgeInsets.zero,
@@ -116,7 +115,7 @@ class _my_post extends State<my_post> {
                           onPressed: () {
                             Navigator.of(context).pop(MaterialPageRoute(
                                 builder: (context) =>
-                                    board_list(widget.token)));
+                                    board_list()));
                           },
                           child: Icon(
                             Icons.chevron_left_rounded,
@@ -186,7 +185,7 @@ class _my_post extends State<my_post> {
                                     Navigator.of(context)
                                         .push(MaterialPageRoute(
                                       builder: (context) =>
-                                          add_post(widget.token),
+                                          add_post(),
                                     ));
                                   },
                                   child: Container(

@@ -13,8 +13,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 //12
 class write_add extends StatefulWidget {
-  final token;
-  const write_add(this.token, {Key? key}) : super(key: key);
+   const write_add({super.key});
 
   @override
   State<write_add> createState() => _write_add();
@@ -78,7 +77,7 @@ class _write_add extends State<write_add> {
                                           MaterialPageRoute(
                                               builder: (context) =>
                                                   Board_list_free(
-                                                      widget.token)));
+                                                      )));
                                     },
                                     child: Icon(
                                       Icons.chevron_left_rounded,
@@ -237,7 +236,7 @@ class _write_add extends State<write_add> {
                           Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => babmuk(widget.token)));
+                                  builder: (context) => babmuk()));
                         }
                       },
                       child: SizedBox(

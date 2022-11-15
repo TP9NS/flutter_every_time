@@ -3,6 +3,7 @@ import 'package:every/board/board_list.dart';
 import 'package:every/chatting/chat.dart';
 import 'package:every/chatting/chat_list.dart';
 import 'package:every/chatting/chat_message.dart';
+import 'package:every/loggin/log.dart';
 import 'package:every/loggin/sign_up.dart';
 import 'package:every/style.dart';
 import 'package:every/board/write_add.dart';
@@ -14,17 +15,28 @@ import 'package:every/chatting/chat_list.dart';
 import 'package:every/ALERT/alert.dart';
 import 'package:every/setting/setting.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class home extends StatefulWidget {
-  final token;
-  const home(this.token, {Key? key}) : super(key: key);
+    const home({super.key});
+
   @override
   State<home> createState() => _home();
 }
 
-class _home extends State<home> {
+class _home extends State<home>   {
   @override
+ checkToken() async{
+  final prefs = await SharedPreferences.getInstance();
+  final String? token = prefs.getString('token');
+  print("awdawawdd");
+  print(token);
+  return token;
+ }
   Widget build(BuildContext context) {
+    if(checkToken() == true){
+      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=>log_in()));
+    }
     return Center(
       child: Container(
           color: Colors.white,
@@ -38,12 +50,10 @@ class _home extends State<home> {
                 children: [
                   IconButton(
                     onPressed: () {
-                      print("Awdawdawd");
-
-                      print(widget.token);
+                      
                       Navigator.pushAndRemoveUntil(context,
                           MaterialPageRoute(builder: (BuildContext context) {
-                        return chat_list(widget.token);
+                        return chat_list();
                       }), (r) {
                         return false;
                       });
@@ -59,7 +69,7 @@ class _home extends State<home> {
                     onPressed: () {
                       Navigator.pushAndRemoveUntil(context,
                           MaterialPageRoute(builder: (BuildContext context) {
-                        return board_list(widget.token);
+                        return board_list();
                       }), (r) {
                         return false;
                       });
@@ -80,7 +90,7 @@ class _home extends State<home> {
                       onPressed: () {
                         Navigator.pushAndRemoveUntil(context,
                             MaterialPageRoute(builder: (BuildContext context) {
-                          return alert(widget.token);
+                          return alert();
                         }), (r) {
                           return false;
                         });
@@ -92,7 +102,7 @@ class _home extends State<home> {
                       onPressed: () {
                         Navigator.pushAndRemoveUntil(context,
                             MaterialPageRoute(builder: (BuildContext context) {
-                          return setting(widget.token);
+                          return setting();
                         }), (r) {
                           return false;
                         });
@@ -378,7 +388,7 @@ class _home extends State<home> {
                                       Navigator.of(context)
                                           .push(MaterialPageRoute(
                                         builder: (context) =>
-                                            add_post(widget.token),
+                                            add_post(),
                                       ));
                                     },
                                     child: Container(
@@ -480,3 +490,4 @@ class _home extends State<home> {
     );
   }
 }
+

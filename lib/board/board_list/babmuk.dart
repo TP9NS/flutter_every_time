@@ -16,8 +16,8 @@ import 'package:every/home/home.dart';
 import 'package:every/setting/setting.dart';
 
 class babmuk extends StatefulWidget {
-  final token;
-  const babmuk(this.token, {Key? key}) : super(key: key);
+    const babmuk({super.key});
+
 
   @override
   State<babmuk> createState() => _babmuk();
@@ -48,7 +48,7 @@ class _babmuk extends State<babmuk> {
                     onPressed: () {
                       Navigator.pushAndRemoveUntil(context,
                           MaterialPageRoute(builder: (BuildContext context) {
-                        return chat_list(widget.token);
+                        return chat_list();
                       }), (r) {
                         return false;
                       });
@@ -64,7 +64,7 @@ class _babmuk extends State<babmuk> {
                     onPressed: () {
                       Navigator.pushAndRemoveUntil(context,
                           MaterialPageRoute(builder: (BuildContext context) {
-                        return board_list(widget.token);
+                        return board_list();
                       }), (r) {
                         return false;
                       });
@@ -79,7 +79,7 @@ class _babmuk extends State<babmuk> {
                       onPressed: () {
                         Navigator.pushAndRemoveUntil(context,
                             MaterialPageRoute(builder: (BuildContext context) {
-                          return home(widget.token);
+                          return home();
                         }), (r) {
                           return false;
                         });
@@ -91,7 +91,7 @@ class _babmuk extends State<babmuk> {
                       onPressed: () {
                         Navigator.pushAndRemoveUntil(context,
                             MaterialPageRoute(builder: (BuildContext context) {
-                          return alert(widget.token);
+                          return alert();
                         }), (r) {
                           return false;
                         });
@@ -103,7 +103,7 @@ class _babmuk extends State<babmuk> {
                       onPressed: () {
                         Navigator.pushAndRemoveUntil(context,
                             MaterialPageRoute(builder: (BuildContext context) {
-                          return setting(widget.token);
+                          return setting();
                         }), (r) {
                           return false;
                         });
@@ -147,7 +147,7 @@ class _babmuk extends State<babmuk> {
                             Navigator.pushAndRemoveUntil(context,
                                 MaterialPageRoute(
                                     builder: (BuildContext context) {
-                              return board_list(widget.token);
+                              return board_list();
                             }), (r) {
                               return false;
                             });
@@ -220,7 +220,7 @@ class _babmuk extends State<babmuk> {
                                     Navigator.of(context)
                                         .push(MaterialPageRoute(
                                       builder: (context) =>
-                                          add_post(widget.token),
+                                          add_post(),
                                     ));
                                   },
                                   child: Container(
@@ -296,7 +296,7 @@ class _babmuk extends State<babmuk> {
                       FloatingActionButton(
                         onPressed: () {
                           Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => write_add(widget.token)));
+                              builder: (context) => write_add()));
                         },
                         child: SizedBox(
                             child: const Center(

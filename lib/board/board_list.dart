@@ -21,8 +21,7 @@ import 'package:every/setting/setting.dart';
 
 //목업 9페이지
 class board_list extends StatefulWidget {
-  final token;
-  const board_list(this.token, {Key? key}) : super(key: key);
+  const board_list({super.key});
 
   @override
   State<board_list> createState() => _Board_list();
@@ -46,7 +45,7 @@ class _Board_list extends State<board_list> {
                     onPressed: () {
                       Navigator.pushAndRemoveUntil(context,
                           MaterialPageRoute(builder: (BuildContext context) {
-                        return chat_list(widget.token);
+                        return chat_list();
                       }), (r) {
                         return false;
                       });
@@ -70,7 +69,7 @@ class _Board_list extends State<board_list> {
                       onPressed: () {
                         Navigator.pushAndRemoveUntil(context,
                             MaterialPageRoute(builder: (BuildContext context) {
-                          return home(widget.token);
+                          return home();
                         }), (r) {
                           return false;
                         });
@@ -82,7 +81,7 @@ class _Board_list extends State<board_list> {
                       onPressed: () {
                         Navigator.pushAndRemoveUntil(context,
                             MaterialPageRoute(builder: (BuildContext context) {
-                          return alert(widget.token);
+                          return alert();
                         }), (r) {
                           return false;
                         });
@@ -94,7 +93,7 @@ class _Board_list extends State<board_list> {
                       onPressed: () {
                         Navigator.pushAndRemoveUntil(context,
                             MaterialPageRoute(builder: (BuildContext context) {
-                          return setting(widget.token);
+                          return setting();
                         }), (r) {
                           return false;
                         });
@@ -155,7 +154,7 @@ class _Board_list extends State<board_list> {
                         child: TextButton(
                           onPressed: () {
                             Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => my_post(widget.token),
+                              builder: (context) => my_post(),
                             ));
                           },
                           child: const Text(
@@ -209,7 +208,7 @@ class _Board_list extends State<board_list> {
                         child: TextButton(
                           onPressed: () {
                             Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => my_comment(widget.token),
+                              builder: (context) => my_comment(),
                             ));
                           },
                           child: const Text(
@@ -266,7 +265,7 @@ class _Board_list extends State<board_list> {
                             Navigator.pushAndRemoveUntil(context,
                                 MaterialPageRoute(
                                     builder: (BuildContext context) {
-                              return drink_beer(widget.token);
+                              return drink_beer();
                             }), (r) {
                               return false;
                             });
@@ -322,7 +321,7 @@ class _Board_list extends State<board_list> {
                             Navigator.pushAndRemoveUntil(context,
                                 MaterialPageRoute(
                                     builder: (BuildContext context) {
-                              return babmuk(widget.token);
+                              return babmuk();
                             }), (r) {
                               return false;
                             });
@@ -378,7 +377,7 @@ class _Board_list extends State<board_list> {
                             Navigator.pushAndRemoveUntil(context,
                                 MaterialPageRoute(
                                     builder: (BuildContext context) {
-                              return taxi(widget.token);
+                              return taxi();
                             }), (r) {
                               return false;
                             });
@@ -434,7 +433,7 @@ class _Board_list extends State<board_list> {
                             Navigator.pushAndRemoveUntil(context,
                                 MaterialPageRoute(
                                     builder: (BuildContext context) {
-                              return market(widget.token);
+                              return market();
                             }), (r) {
                               return false;
                             });
@@ -487,7 +486,7 @@ class _Board_list extends State<board_list> {
                             Navigator.pushAndRemoveUntil(context,
                                 MaterialPageRoute(
                                     builder: (BuildContext context) {
-                              return Board_list_free(widget.token);
+                              return Board_list_free();
                             }), (r) {
                               return false;
                             });
@@ -543,7 +542,7 @@ class _Board_list extends State<board_list> {
                             Navigator.pushAndRemoveUntil(context,
                                 MaterialPageRoute(
                                     builder: (BuildContext context) {
-                              return feedback(widget.token);
+                              return feedback();
                             }), (r) {
                               return false;
                             });
@@ -596,7 +595,7 @@ class _Board_list extends State<board_list> {
                             Navigator.pushAndRemoveUntil(context,
                                 MaterialPageRoute(
                                     builder: (BuildContext context) {
-                              return NOTICE(widget.token);
+                              return NOTICE();
                             }), (r) {
                               return false;
                             });

@@ -8,8 +8,7 @@ import 'package:flutter/src/widgets/framework.dart';
 
 //11페이지
 class add_post extends StatefulWidget {
-  final token;
-  const add_post(this.token, {Key? key}) : super(key: key);
+   const add_post({super.key});
 
   @override
   State<add_post> createState() => _add_post();
@@ -86,7 +85,7 @@ class _add_post extends State<add_post> {
                                           MaterialPageRoute(
                                               builder: (context) =>
                                                   Board_list_free(
-                                                      widget.token)));
+                                                      )));
                                     },
                                     child: Icon(
                                       Icons.chevron_left_rounded,
