@@ -5,129 +5,109 @@ const methodOverride = require('method-override');
 const bodyParser = require('body-parser');
 const { request } = require('express');
 app.use(express.json());
+const key = 'token';    
 
 const jwt = require('jsonwebtoken');
 
-function makeToken(payload) {
-  return jwt.sign(payload, secretKey, option);
-}
 app.use(express.urlencoded({
   extended: true
 }));
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(methodOverride('_method'));
 app.set('view engine','html');  
-var db;
+var db_user;
+var db_board;
 
 MongoClient.connect('mongodb+srv://lsmin0828:!@ljs040207!@@every.ilkse02.mongodb.net/?retryWrites=true&w=majority',(err,client)=>{
     if(err){
         return console.log(err);
     }
-    db = client.db('UserInfo');
-    db = client.db('board');
-    db.collection('LogIn').insertOne({name: 'jhon',id:'qwer'},(err,result)=>{
-        if(err)
-            console.log(err);
-    });
+    db_user = client.db('UserInfo');
+    db_board= client.db('board');
     app.listen(8080,()=>{
         console.log('listen on 8080');
     });
-    app.get('/asdf',(req,res)=>{
-        //db apple을 써
-    });
-})
-app.get('/',(req,res)=>{
-    res.sendFile(__dirname + '/view/index.html');
-});
-app.post('/',(req,res)=>{
-    if(!req.body.apple){
-        res.send('404');
-    }
-    const data = {'id':req.body.apple};
-    db.collection('LogIn').insertOne(data,(err,result)=>{
-        if(err)
-            console.log(err);
-    });
-    res.json(req.body);
     
-});
-app.get('/data',(req,res)=>{
-    db.collection('LogIn').find({}).toArray((err,result)=>{
-        if(err)
-            console.log(err);
-        console.log(result);
-        res.json(result);
-    });
-});
-app.get('/hinggu',(req,res)=>{
-    db.collection('LogIn').deleteOne({id:'ychh1123'},(err,result)=>{
-         if(err){
-            console.log(err);
-            return res.json('굳1');
-        }
-
-    console.log(result);
-    res.json('굳2');
-    });        
-});
-
+})
+//이용약관 동의
 app.post('/agree',(req,res)=>{
     console.log(req.body);  
     if(req.body.agree1&req.body.agree2){
-        res.send("ok");
+        res.status(200).send('true');
+        console.log('모두 동의함');
+    }
+    else{
+        res.status(200).send('false');
+        console.log('동의 하지 않음');
     }
 });
+
+//회원가입
 app.post('/sign_up',(req,res)=>{
-    
     console.log(req.body);
     if(req.body.Id!=''&req.body.nicname!=''&req.body.num!=''&req.body.pas1!=''){
         if(req.body.pas1 == req.body.pas2) {
-            db.collection('LogIn').insertOne({name: req.body.name,nic:req.body.nicname,num:req.body.num,pas:req.body.pas1})
-            res.send("next");
+            db_user .collection('LogIn').insertOne({name: req.body.name,nic:req.body.nicname,num:req.body.num,pas:req.body.pas1})
+            res.send(true);
         }
     }
 });
+
+//로그인
 app.post('/log_in',(req,res)=>{
     
     console.log(req.body);
-    db.collection('LogIn').find({num:req.body.num,pas:req.body.pas}).toArray((err,result)=>{
+    db_user .collection('LogIn').find({num:req.body.num,pas:req.body.pas}).toArray((err,result)=>{
         console.log(result);
         
         if(err||result == ''){
             res.status(404).send('비밀번호가 일치하지 않습니다.'); 
         }
         else{
-            const key = 'token';    
-            const token = jwt.sign({num:req.body.num},key); // jwt.sign으로 3가지 인자를 token 담아 클라이언트에게 넘겨준다.
+            const token = jwt.sign({nic:result.nic,num:req.body.num},key); // jwt.sign으로 3가지 인자를 token 담아 클라이언트에게 넘겨준다.
             res.status(200).send({ token });
         }
     });
 });
-
-app.post('/write_add',(req,res)=>{
+//글쓰기 밥묵
+app.post('/write_add', (req, res) => {
     console.log(req.body);
-    if(req.body.title!=''&req.body.contents!=''){
-        if(req.body.pas1 == req.body.pas2) {
-            db.collection('boardbabmuk').insertOne({title: req.body.title,contents:req.body.contents})
-            res.send("next");
+    const num = jwt.verify(JSON.parse(req.body.token).token,key).num;
+    if (num != '' & req.body.title != '' & req.body.contents != '') {
+        db_user.collection('LogIn').find({ num: num }).toArray((err, result) => {
+            switch(req.body.board)
+        {
+            case '자유게시판':
+                db_board.collection('board_list_free').insertOne({ nic: result[0].nic, num: num, title: req.body.title, contents: req.body.contents ,anon:req.body.anon})
+                res.status(200).send('true');
+                break;
+            case '술 먹을 사람?':
+                db_board.collection('drink_beer').insertOne({ nic: result[0].nic, num: num, title: req.body.title, contents: req.body.contents,anon:req.body.anon })
+                res.status(200).send('true');
+                break;
+            case '밥 먹을 사람?':
+                db_board.collection('babmuk').insertOne({ nic: result[0].nic, num: num, title: req.body.title, contents: req.body.contents,anon:req.body.anon })
+                res.status(200).send('true');
+                break;
+            case '택시 탈 사람?':
+                db_board.collection('taxi').insertOne({ nic: result[0].nic, num: num, title: req.body.title, contents: req.body.contents,anon:req.body.anon })
+                res.status(200).send('true');
+                break;
+            case '안양인들의 강화마켓':
+                db_board.collection('market').insertOne({ nic: result[0].nic, num: num, title: req.body.title, contents: req.body.contents ,anon:req.body.anon})
+                res.status(200).send('true');
+                break;
+            case '피드백':
+                db_board.collection('feedback').insertOne({ nic: result[0].nic, num: num, title: req.body.title, contents: req.body.contents,anon:req.body.anon })
+                res.status(200).send('true');
+                break;
         }
-    }
-});
-
-function login(req,res,next) {
-    const decoded = jwt.verify(req.body, 'token');
-    if(decoded == ){
-        next();
+        });
     }
     else{
-        res.send(403);
+        res.status(400).send('false');;
     }
-}
-
-app.post('/check',login,(req,res)=>{
-
 });
-
 //app.post('/test',(req,res)=>{
 //    const jwt = require('jsonwebtoken');
 //    const key = 'token';    

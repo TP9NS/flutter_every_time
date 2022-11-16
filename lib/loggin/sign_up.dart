@@ -161,7 +161,7 @@ class _Sign_up extends State<sign_up> {
                             Uri.parse(dotenv.get('BASE_URL') + "agree"),
                             headers: headers,
                             body: body);
-                        if (_res.body == "ok") {
+                        if (_res.statusCode == 200) {
                           Navigator.of(context).push(MaterialPageRoute(
                             builder: (context) => const UserInfo(),
                           ));

@@ -40,7 +40,7 @@ class _my_comment extends State<my_comment> {
   }
 
   Widget build(BuildContext context) {
-    if (checkToken() == true) {
+    if (checkToken() == '') {
       Navigator.of(context)
           .pushReplacement(MaterialPageRoute(builder: (context) => log_in()));
     }

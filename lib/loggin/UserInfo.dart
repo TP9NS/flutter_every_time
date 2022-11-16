@@ -220,7 +220,7 @@ class _UserInfoState extends State<UserInfo> {
                             Uri.parse(dotenv.get('BASE_URL') + "sign_up"),
                             headers: headers,
                             body: body);
-                        if (_res.body == "next") {
+                        if (_res.statusCode == 200) {
                           Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(

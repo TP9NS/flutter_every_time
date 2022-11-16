@@ -38,7 +38,7 @@ class _Board_list extends State<board_list> {
   }
 
   Widget build(BuildContext context) {
-    if (checkToken() == true) {
+    if (checkToken() == '') {
       Navigator.of(context)
           .pushReplacement(MaterialPageRoute(builder: (context) => log_in()));
     }

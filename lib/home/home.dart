@@ -33,7 +33,7 @@ class _home extends State<home> {
   }
 
   Widget build(BuildContext context) {
-    if (checkToken() == true) {
+    if (checkToken() == '') {
       Navigator.of(context)
           .pushReplacement(MaterialPageRoute(builder: (context) => log_in()));
     }

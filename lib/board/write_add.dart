@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:every/board/board_list.dart';
 import 'package:every/board/board_list/babmuk.dart';
 import 'package:every/board/board_list/board_list_free.dart';
 import 'package:every/loggin/log.dart';
@@ -23,22 +24,33 @@ final titleController = TextEditingController();
 final contentsController = TextEditingController();
 
 class _write_add extends State<write_add> {
+  final boardList = [
+    '술 먹을 사람?',
+    '밥 먹을 사람?',
+    '택시 탈 사람?',
+    '안양인들의 강화마켓',
+    '자유게시판',
+    '피드백'
+  ];
+
+  var _selectBoard = '술 먹을 사람?';
   bool? Anon;
   String? Name;
+  String? token;
   @override
   checkToken() async {
     final prefs = await SharedPreferences.getInstance();
-    final String? token = prefs.getString('token');
-    return token;
+    token = prefs.getString('token');
   }
 
   void initState() {
     Anon = true;
     Name = '익명';
+    checkToken();
   }
 
   Widget build(BuildContext context) {
-    if (checkToken() == true) {
+    if (checkToken() == Null) {
       Navigator.of(context)
           .pushReplacement(MaterialPageRoute(builder: (context) => log_in()));
     }
@@ -141,10 +153,14 @@ class _write_add extends State<write_add> {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        Text('$Name',
-                                            style: TextStyle(
-                                                fontSize: 20,
-                                                fontWeight: FontWeight.bold)),
+                                        Padding(
+                                          padding:
+                                              const EdgeInsets.only(top: 5),
+                                          child: Text('$Name',
+                                              style: TextStyle(
+                                                  fontSize: 15,
+                                                  fontWeight: FontWeight.bold)),
+                                        ),
                                         Checkbox(
                                           side: MaterialStateBorderSide
                                               .resolveWith((states) =>
@@ -171,16 +187,31 @@ class _write_add extends State<write_add> {
                                   ),
                                 ],
                               ),
-                              Padding(
-                                padding:
-                                    const EdgeInsets.fromLTRB(10, 10, 15, 10),
-                                child: IconButton(
-                                    onPressed: () {},
-                                    icon: Icon(
-                                      Icons.image_outlined,
-                                      size: 35,
-                                      color: Colors.grey[700],
-                                    )),
+                              Row(
+                                children: [
+                                  DropdownButton(
+                                      value: _selectBoard,
+                                      items: boardList.map(
+                                        (value) {
+                                          return DropdownMenuItem(
+                                            value: value,
+                                            child: Text(value),
+                                          );
+                                        },
+                                      ).toList(),
+                                      onChanged: (value) {
+                                        setState(() {
+                                          _selectBoard = value.toString();
+                                        });
+                                      }),
+                                  IconButton(
+                                      onPressed: () {},
+                                      icon: Icon(
+                                        Icons.image_outlined,
+                                        size: 35,
+                                        color: Colors.grey[700],
+                                      )),
+                                ],
                               )
                             ],
                           ),
@@ -228,8 +259,11 @@ class _write_add extends State<write_add> {
                   ElevatedButton(
                       onPressed: () async {
                         Map data = {
+                          "anon": Anon,
+                          "token": token,
                           "title": titleController.text,
                           "contents": contentsController.text,
+                          "board": _selectBoard,
                         };
                         var body = jsonEncode(data);
                         Map<String, String> headers = {
@@ -240,11 +274,11 @@ class _write_add extends State<write_add> {
                             Uri.parse(dotenv.get('BASE_URL') + "write_add"),
                             headers: headers,
                             body: body);
-                        if (_res.body == "next") {
+                        if (_res.statusCode == 200) {
                           Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => babmuk()));
+                                  builder: (context) => board_list()));
                         }
                       },
                       child: SizedBox(
