@@ -6,6 +6,11 @@ const bodyParser = require('body-parser');
 const { request } = require('express');
 app.use(express.json());
 
+const jwt = require('jsonwebtoken');
+
+function makeToken(payload) {
+  return jwt.sign(payload, secretKey, option);
+}
 app.use(express.urlencoded({
   extended: true
 }));
@@ -92,13 +97,13 @@ app.post('/log_in',(req,res)=>{
             res.status(404).send('비밀번호가 일치하지 않습니다.'); 
         }
         else{
-            const jwt = require('jsonwebtoken');
             const key = 'token';    
-            const token = jwt.sign({num:req.body.num,pas:req.body.pas},key); // jwt.sign으로 3가지 인자를 token 담아 클라이언트에게 넘겨준다.
+            const token = jwt.sign({num:req.body.num},key); // jwt.sign으로 3가지 인자를 token 담아 클라이언트에게 넘겨준다.
             res.status(200).send({ token });
         }
     });
 });
+
 app.post('/write_add',(req,res)=>{
     console.log(req.body);
     if(req.body.title!=''&req.body.contents!=''){
@@ -108,6 +113,21 @@ app.post('/write_add',(req,res)=>{
         }
     }
 });
+
+function login(req,res,next) {
+    const decoded = jwt.verify(req.body, 'token');
+    if(decoded == ){
+        next();
+    }
+    else{
+        res.send(403);
+    }
+}
+
+app.post('/check',login,(req,res)=>{
+
+});
+
 //app.post('/test',(req,res)=>{
 //    const jwt = require('jsonwebtoken');
 //    const key = 'token';    

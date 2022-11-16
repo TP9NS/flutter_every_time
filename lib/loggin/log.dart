@@ -12,9 +12,7 @@ import 'package:http/http.dart' as http;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-
 class log_in extends StatefulWidget {
-  
   const log_in({super.key});
 
   @override
@@ -25,7 +23,6 @@ class _log_inState extends State<log_in> {
   final numController = TextEditingController();
   final pasController = TextEditingController();
   @override
-
   Widget build(BuildContext context) {
     return MaterialApp(
         home: Center(
@@ -107,14 +104,9 @@ class _log_inState extends State<log_in> {
                         body: body);
                     if (_res.statusCode == 200) {
                       final prefs = await SharedPreferences.getInstance();
-                      await prefs.setString('token',_res.body);
-                      print("awdawd");
-                      print(_res.body);
-                      print(prefs.getString('token'));
-                      Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => home()));
+                      await prefs.setString('token', _res.body);
+                      Navigator.pushReplacement(context,
+                          MaterialPageRoute(builder: (context) => home()));
                       //token을 받는 데 이 토큰을 통해 어캐 로그인 유지를 하는 가
                     }
                   },

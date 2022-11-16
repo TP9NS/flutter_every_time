@@ -18,24 +18,24 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class home extends StatefulWidget {
-    const home({super.key});
+  const home({super.key});
 
   @override
   State<home> createState() => _home();
 }
 
-class _home extends State<home>   {
+class _home extends State<home> {
   @override
- checkToken() async{
-  final prefs = await SharedPreferences.getInstance();
-  final String? token = prefs.getString('token');
-  print("awdawawdd");
-  print(token);
-  return token;
- }
+  checkToken() async {
+    final prefs = await SharedPreferences.getInstance();
+    final String? token = prefs.getString('token');
+    return token;
+  }
+
   Widget build(BuildContext context) {
-    if(checkToken() == true){
-      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=>log_in()));
+    if (checkToken() == true) {
+      Navigator.of(context)
+          .pushReplacement(MaterialPageRoute(builder: (context) => log_in()));
     }
     return Center(
       child: Container(
@@ -50,7 +50,6 @@ class _home extends State<home>   {
                 children: [
                   IconButton(
                     onPressed: () {
-                      
                       Navigator.pushAndRemoveUntil(context,
                           MaterialPageRoute(builder: (BuildContext context) {
                         return chat_list();
@@ -387,8 +386,7 @@ class _home extends State<home>   {
                                     onPressed: () {
                                       Navigator.of(context)
                                           .push(MaterialPageRoute(
-                                        builder: (context) =>
-                                            add_post(),
+                                        builder: (context) => add_post(),
                                       ));
                                     },
                                     child: Container(
@@ -490,4 +488,3 @@ class _home extends State<home>   {
     );
   }
 }
-
