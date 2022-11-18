@@ -104,7 +104,7 @@ class _log_inState extends State<log_in> {
                         body: body);
                     if (_res.statusCode == 200) {
                       final prefs = await SharedPreferences.getInstance();
-                      await prefs.setString('token', _res.body);
+                      await prefs.setString('num', _res.body);
                       Navigator.pushReplacement(context,
                           MaterialPageRoute(builder: (context) => home()));
                       //token을 받는 데 이 토큰을 통해 어캐 로그인 유지를 하는 가

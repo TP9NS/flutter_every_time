@@ -27,16 +27,20 @@ class NOTICE extends StatefulWidget {
 class _NOTICE extends State<NOTICE> {
   late Map<int, Color> heart_color = new Map();
   @override
+  var num;
+  var count;
+
   checkToken() async {
     final prefs = await SharedPreferences.getInstance();
-    final String? token = prefs.getString('token');
-    return token;
+    num = prefs.getString('num');
   }
 
   void initState() {
+    var count = 0;
     for (int i = 0; i <= 199; i++) {
       heart_color[i] = Colors.grey;
     }
+    checkToken();
   }
 
   Widget build(BuildContext context) {

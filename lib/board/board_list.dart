@@ -31,12 +31,17 @@ class board_list extends StatefulWidget {
 
 class _Board_list extends State<board_list> {
   @override
+ var num;
+  var count;
+
   checkToken() async {
     final prefs = await SharedPreferences.getInstance();
-    final String? token = prefs.getString('token');
-    return token;
+    num = prefs.getString('num');
   }
-
+  void initState() {
+    var count = 0;
+    checkToken();
+  }
   Widget build(BuildContext context) {
     if (checkToken() == '') {
       Navigator.of(context)

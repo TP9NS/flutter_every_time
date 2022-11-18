@@ -19,10 +19,14 @@ List<chatmessage> _chat = [];
 class _Chat extends State<Chat> {
   TextEditingController _textEditingController = TextEditingController();
   @override
+  var num;
+
   checkToken() async {
     final prefs = await SharedPreferences.getInstance();
-    final String? token = prefs.getString('token');
-    return token;
+    num = prefs.getString('num');
+  }
+  void initState() {
+    checkToken();
   }
 
   Widget build(BuildContext context) {

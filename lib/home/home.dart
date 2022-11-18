@@ -26,10 +26,14 @@ class home extends StatefulWidget {
 
 class _home extends State<home> {
   @override
+ var num;
+
   checkToken() async {
     final prefs = await SharedPreferences.getInstance();
-    final String? token = prefs.getString('token');
-    return token;
+    num = prefs.getString('num');
+  }
+  void initState() {
+    checkToken();
   }
 
   Widget build(BuildContext context) {

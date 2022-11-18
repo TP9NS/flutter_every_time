@@ -19,15 +19,19 @@ class _edit_post extends State<edit_post> {
   bool? Anon;
   String? Name;
   @override
+  var num;
+  var count;
+
   checkToken() async {
     final prefs = await SharedPreferences.getInstance();
-    final String? token = prefs.getString('token');
-    return token;
+    num = prefs.getString('num');
   }
 
   void initState() {
+    var count = 0;
     Anon = true;
     Name = '익명';
+    checkToken();
   }
 
   Widget build(BuildContext context) {

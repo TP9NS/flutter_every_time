@@ -37,12 +37,12 @@ class _write_add extends State<write_add> {
   bool? Anon;
   String? Name;
   String? token;
+  var num;
   @override
   checkToken() async {
     final prefs = await SharedPreferences.getInstance();
-    token = prefs.getString('token');
+    num = prefs.getString('num');
   }
-
   void initState() {
     Anon = true;
     Name = '익명';
@@ -260,7 +260,7 @@ class _write_add extends State<write_add> {
                       onPressed: () async {
                         Map data = {
                           "anon": Anon,
-                          "token": token,
+                          "num": num,
                           "title": titleController.text,
                           "contents": contentsController.text,
                           "board": _selectBoard,

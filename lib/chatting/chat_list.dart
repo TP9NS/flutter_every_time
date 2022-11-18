@@ -24,10 +24,15 @@ class chat_list extends StatefulWidget {
 
 class _chat_list extends State<chat_list> {
   @override
+  var num;
+
   checkToken() async {
     final prefs = await SharedPreferences.getInstance();
-    final String? token = prefs.getString('token');
-    return token;
+    num = prefs.getString('num');
+  }
+  void initState() {
+    
+    checkToken();
   }
 
   Widget build(BuildContext context) {

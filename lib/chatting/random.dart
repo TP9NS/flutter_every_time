@@ -28,10 +28,11 @@ matching match_status = matching.stop;
 
 class _ramdom extends State<random> {
   @override
+  var num;
+
   checkToken() async {
     final prefs = await SharedPreferences.getInstance();
-    final String? token = prefs.getString('token');
-    return token;
+    num = prefs.getString('num');
   }
 
   Widget build(BuildContext context) {

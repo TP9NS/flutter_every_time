@@ -26,10 +26,16 @@ class my_post extends StatefulWidget {
 
 class _my_post extends State<my_post> {
   @override
+  var num;
+  var count;
+
   checkToken() async {
     final prefs = await SharedPreferences.getInstance();
-    final String? token = prefs.getString('token');
-    return token;
+    num = prefs.getString('num');
+  }
+  void initState() {
+    var count = 0;
+    checkToken();
   }
 
   Widget build(BuildContext context) {

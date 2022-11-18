@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:every/board/add_post.dart';
 import 'package:every/board/board_list.dart';
 import 'package:every/chatting/chat.dart';
@@ -16,6 +18,8 @@ import 'package:every/ALERT/alert.dart';
 import 'package:every/home/home.dart';
 import 'package:every/setting/setting.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class market extends StatefulWidget {
   const market({super.key});
@@ -24,26 +28,74 @@ class market extends StatefulWidget {
   State<market> createState() => _market();
 }
 
-class _market extends State<market> {
+class _market extends State<market>{
   late Map<int, Color> heart_color = new Map();
+  var num;
+  var count;
+  var check;
+  var tmp;
+
+  List<String> post = new List.empty(growable: true);
+  List<String> post1 = new List.empty(growable: true);
+
+  final ScrollController _scrollController = ScrollController();
+
   @override
   checkToken() async {
     final prefs = await SharedPreferences.getInstance();
-    final String? token = prefs.getString('token');
-    return token;
+    num = prefs.getString('num');
   }
 
   void initState() {
+    count = 0;
+    _scrollController.addListener(() {
+      if (_scrollController.position.maxScrollExtent ==
+          _scrollController.offset) {
+        scrollListener();
+      }
+    });
+    checkToken();
     for (int i = 0; i <= 199; i++) {
       heart_color[i] = Colors.grey;
+    }
+    scrollListener();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  Future scrollListener() async {
+    Map data = {
+      "num": num,
+      "board": "안양인들의 강화마켓",
+      "count": count,
+    };
+    var body = jsonEncode(data);
+    Map<String, String> headers = {
+      "Accept": "application/json",
+      "content-type": "application/json",
+    };
+    http.Response _res = await http.post(
+        Uri.parse(dotenv.get('BASE_URL') + "board_list"),
+        headers: headers,
+        body: body);
+    List<dynamic> list = jsonDecode(_res.body);
+    if (_res.statusCode == 200) {
+      for (int i = 0; i < 10; i++) {
+        setState(() {
+          post.add(list[i]['title']);
+          post1.add(list[i]['contents']);
+          count++;
+        });
+      }
     }
   }
 
   Widget build(BuildContext context) {
-    if (checkToken() == '') {
-      Navigator.of(context)
-          .pushReplacement(MaterialPageRoute(builder: (context) => log_in()));
-    }
     return Center(
       child: Container(
           color: Colors.white,
@@ -139,7 +191,7 @@ class _market extends State<market> {
                       padding: EdgeInsets.fromLTRB(30, 55, 0, 0),
                       //padding: EdgeInsets.fromLTRB(left, top, right, bottom),
                       child: Text(
-                        '강화 마켓',
+                        '강화마켓',
                         style: Style_helpT,
                       ),
                     ),
@@ -147,36 +199,35 @@ class _market extends State<market> {
                       padding: EdgeInsets.fromLTRB(95, 55, 0, 0),
                       //padding: EdgeInsets.fromLTRB(left, top, right, bottom),
                       child: Container(
-                        width: 40,
-                        height: 40,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(100),
-                          border: Border.all(color: Colors.grey),
-                        ),
-                        child: OutlinedButton(
-                          onPressed: () {
-                            Navigator.pushAndRemoveUntil(context,
-                                MaterialPageRoute(
-                                    builder: (BuildContext context) {
-                              return board_list();
-                            }), (r) {
-                              return false;
-                            });
-                          },
-                          child: Icon(
-                            Icons.chevron_left_rounded,
-                            size: 40,
+                          width: 40,
+                          height: 40,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(100),
+                            border: Border.all(color: Colors.grey),
                           ),
-                          style: OutlinedButton.styleFrom(
-                              minimumSize: Size(50, 50),
-                              padding: EdgeInsets.all(0),
-                              side: BorderSide(width: 3, color: Colors.grey),
-                              primary: Colors.grey,
-                              shape: RoundedRectangleBorder(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(100)))),
-                        ),
-                      ),
+                          child: OutlinedButton(
+                            onPressed: () {
+                              Navigator.pushAndRemoveUntil(context,
+                                  MaterialPageRoute(
+                                      builder: (BuildContext context) {
+                                return board_list();
+                              }), (r) {
+                                return false;
+                              });
+                            },
+                            child: Icon(
+                              Icons.chevron_left_rounded,
+                              size: 40,
+                            ),
+                            style: OutlinedButton.styleFrom(
+                                minimumSize: Size(50, 50),
+                                padding: EdgeInsets.all(0),
+                                side: BorderSide(width: 3, color: Colors.grey),
+                                primary: Colors.grey,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.all(
+                                        Radius.circular(100)))),
+                          )),
                     ),
                   ],
                 ),
@@ -198,101 +249,107 @@ class _market extends State<market> {
                   height: 30,
                 ),
                 Container(
+                  color: Colors.grey,
                   height: 470,
                   width: double.infinity,
                   child: ListView.builder(
+                    controller: _scrollController,
                     scrollDirection: Axis.vertical,
-                    itemCount: 200,
+                    itemCount: post.length,
                     itemExtent: 95,
                     itemBuilder: (BuildContext context, int index) {
-                      return Container(
-                        margin: EdgeInsets.only(left: 9),
-                        child: Container(
-                          child: Row(
-                            children: [
-                              Container(
-                                width: 320,
-                                height: 80,
-                                decoration: BoxDecoration(
-                                  color: Colors.grey[50],
-                                  borderRadius: BorderRadius.circular(3),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.grey.withOpacity(0.33),
-                                      spreadRadius: 5,
-                                      blurRadius: 7,
-                                      offset: Offset(
-                                          2, 4), // changes position of shadow
-                                    ),
-                                  ],
-                                ),
-                                child: OutlinedButton(
-                                  onPressed: () {
-                                    Navigator.of(context)
-                                        .push(MaterialPageRoute(
-                                      builder: (context) => add_post(),
-                                    ));
-                                  },
-                                  child: Container(
-                                    width: double.infinity,
-                                    height: double.infinity,
-                                    padding: EdgeInsets.all(5),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              '구찌 지갑 팝니다 $index',
-                                              style: Style_inTitle,
-                                            ),
-                                            SizedBox(
-                                              height: 5,
-                                            ),
-                                            Text(
-                                              '80만원 에눌 ㄴㄴ',
-                                              style: Style_mini,
-                                            ),
-                                          ],
-                                        ),
-                                        Row(
-                                          children: [
-                                            IconButton(
-                                                onPressed: () {
-                                                  setState(() {
-                                                    if (heart_color[index] ==
-                                                        Colors.red) {
-                                                      heart_color[index] =
-                                                          Colors.grey;
-                                                    } else {
-                                                      heart_color[index] =
-                                                          Colors.red;
-                                                    }
-                                                  });
-                                                },
-                                                icon: Icon(Icons.favorite),
-                                                color: heart_color[index]),
-                                            IconButton(
-                                                onPressed: () {},
-                                                icon: Icon(
-                                                  Icons.comment,
-                                                  size: 30,
-                                                  color: Colors.grey,
-                                                ))
-                                          ],
-                                        ),
-                                      ],
+                      if (index < post.length) {
+                        return Container(
+                          margin: EdgeInsets.only(left: 9),
+                          child: Container(
+                            child: Row(
+                              children: [
+                                Container(
+                                  width: 320,
+                                  height: 80,
+                                  decoration: BoxDecoration(
+                                    color: Colors.grey[50],
+                                    borderRadius: BorderRadius.circular(3),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.grey.withOpacity(0.33),
+                                        spreadRadius: 5,
+                                        blurRadius: 7,
+                                        offset: Offset(
+                                            2, 4), // changes position of shadow
+                                      ),
+                                    ],
+                                  ),
+                                  child: OutlinedButton(
+                                    onPressed: () {
+                                      Navigator.of(context)
+                                          .push(MaterialPageRoute(
+                                        builder: (context) => add_post(),
+                                      ));
+                                    },
+                                    child: Container(
+                                      width: double.infinity,
+                                      height: double.infinity,
+                                      padding: EdgeInsets.all(5),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                post[index],
+                                                style: Style_inTitle,
+                                              ),
+                                              SizedBox(
+                                                height: 5,
+                                              ),
+                                              Text(
+                                                post1[index],
+                                                style: Style_mini,
+                                              ),
+                                            ],
+                                          ),
+                                          Row(
+                                            children: [
+                                              IconButton(
+                                                  onPressed: () {
+                                                    setState(() {
+                                                      if (heart_color[index] ==
+                                                          Colors.red) {
+                                                        heart_color[index] =
+                                                            Colors.grey;
+                                                      } else {
+                                                        heart_color[index] =
+                                                            Colors.red;
+                                                      }
+                                                    });
+                                                  },
+                                                  icon: Icon(Icons.favorite),
+                                                  color: heart_color[index]),
+                                              IconButton(
+                                                  onPressed: () {},
+                                                  icon: Icon(
+                                                    Icons.comment,
+                                                    size: 30,
+                                                    color: Colors.grey,
+                                                  ))
+                                            ],
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                   ),
-                                ),
-                              )
-                            ],
+                                )
+                              ],
+                            ),
                           ),
-                        ),
-                      );
+                        );
+                      } else {
+                        return CircularProgressIndicator();
+                      }
                     },
                   ),
                 ),

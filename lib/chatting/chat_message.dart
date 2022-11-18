@@ -14,17 +14,12 @@ class chatmessage extends StatelessWidget {
   }) : super(key: Key);
 
   @override
-  checkToken() async {
-    final prefs = await SharedPreferences.getInstance();
-    final String? token = prefs.getString('token');
-    return token;
+  
+void initState() {
+   
   }
-
   Widget build(BuildContext context) {
-    if (checkToken() == '') {
-      Navigator.of(context)
-          .pushReplacement(MaterialPageRoute(builder: (context) => log_in()));
-    }
+    
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 3.0, vertical: 2.0),
       child: Container(
