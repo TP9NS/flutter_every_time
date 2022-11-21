@@ -28,7 +28,7 @@ class market extends StatefulWidget {
   State<market> createState() => _market();
 }
 
-class _market extends State<market>{
+class _market extends State<market> {
   late Map<int, Color> heart_color = new Map();
   var num;
   var count;

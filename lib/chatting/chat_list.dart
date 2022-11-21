@@ -30,8 +30,8 @@ class _chat_list extends State<chat_list> {
     final prefs = await SharedPreferences.getInstance();
     num = prefs.getString('num');
   }
+
   void initState() {
-    
     checkToken();
   }
 

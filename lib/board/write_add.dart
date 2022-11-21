@@ -43,6 +43,7 @@ class _write_add extends State<write_add> {
     final prefs = await SharedPreferences.getInstance();
     num = prefs.getString('num');
   }
+
   void initState() {
     Anon = true;
     Name = '익명';

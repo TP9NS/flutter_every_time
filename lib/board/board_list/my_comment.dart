@@ -27,7 +27,7 @@ class my_comment extends StatefulWidget {
 class _my_comment extends State<my_comment> {
   late Map<int, Color> heart_color = new Map();
   @override
- var num;
+  var num;
   var count;
 
   checkToken() async {

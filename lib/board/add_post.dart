@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:every/board/board_list/board_list_free.dart';
 import 'package:every/board/edit_post.dart';
 import 'package:every/loggin/log.dart';
@@ -7,8 +10,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-//11페이지
+//11페이지 글보기
 class add_post extends StatefulWidget {
   const add_post({super.key});
 
@@ -16,23 +21,52 @@ class add_post extends StatefulWidget {
   State<add_post> createState() => _add_post();
 }
 
+final myConmmentController = TextEditingController();
+
 class _add_post extends State<add_post> {
   bool? Anon;
   String? Name;
   @override
   var num;
   var count;
-
+  var id;
+  var title;
+  var contents;
+  var board;
   checkToken() async {
     final prefs = await SharedPreferences.getInstance();
     num = prefs.getString('num');
   }
 
+  Future infoSend() async {
+    final prefs = await SharedPreferences.getInstance();
+    id = prefs.getString('_id');
+    board = prefs.getString('board');
+
+    Map data = {"id": id, "board": board};
+    var body = jsonEncode(data);
+    Map<String, String> headers = {
+      "Accept": "application/json",
+      "content-type": "application/json",
+    };
+    http.Response _res = await http.post(
+        Uri.parse(dotenv.get('BASE_URL') + "add_post"),
+        headers: headers,
+        body: body);
+    Map<String, dynamic> list = jsonDecode(_res.body);
+    if (_res.statusCode == 200) {
+      title = list["result"]["title"];
+      contents = list["result"]["contents"];
+    }
+  }
+
   void initState() {
+    super.initState();
     var count = 0;
     Anon = true;
     Name = '익명';
     checkToken();
+    infoSend();
   }
 
   Widget build(BuildContext context) {
@@ -194,6 +228,7 @@ class _add_post extends State<add_post> {
                               ),
                             ],
                           ),
+                          FutureBuilder(future: infoSend(), builder: builder),
                           Container(
                             decoration:
                                 BoxDecoration(color: Colors.white, boxShadow: [
@@ -205,21 +240,13 @@ class _add_post extends State<add_post> {
                             ]),
                             padding: EdgeInsets.all(10),
                             child: Column(children: [
-                              TextField(
+                              Text(
+                                '$title',
                                 style: TextStyle(fontSize: 30),
-                                decoration: InputDecoration(
-                                  enabledBorder: InputBorder.none,
-                                  focusedBorder: InputBorder.none,
-                                  hintText: '제목',
-                                  hintStyle: TextStyle(fontSize: 30),
-                                ),
                               ),
-                              TextField(
+                              Text(
+                                '$contents',
                                 maxLines: 5,
-                                decoration: InputDecoration(
-                                    enabledBorder: InputBorder.none,
-                                    focusedBorder: InputBorder.none,
-                                    hintText: '내용'),
                               ),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.end,
@@ -334,10 +361,12 @@ class _add_post extends State<add_post> {
                 ),
                 Flexible(
                   child: TextField(
-                      decoration: InputDecoration(
-                    hintText: '$Name',
-                    enabledBorder: InputBorder.none,
-                  )),
+                    decoration: InputDecoration(
+                      hintText: '$Name',
+                      enabledBorder: InputBorder.none,
+                    ),
+                    controller: myConmmentController,
+                  ),
                 ),
                 IconButton(
                   iconSize: 40,
@@ -347,11 +376,30 @@ class _add_post extends State<add_post> {
                   onPressed: () {},
                 ),
                 IconButton(
-                  iconSize: 30,
-                  color: Colors.white,
-                  icon: Icon(Icons.send),
-                  onPressed: () {},
-                ),
+                    iconSize: 30,
+                    color: Colors.white,
+                    icon: Icon(Icons.send),
+                    onPressed: () {
+                      //Map data = {
+                      //  "comments": myConmmentController.text,
+                      //  "board": "밥 먹을 사람?"
+                      //};
+                      //var body = jsonEncode(data);
+                      //Map<String, String> headers = {
+                      //  "Accept": "application/json",
+                      //  "content-type": "application/json",
+                      //};
+                      //http.Response _res = await http.post(
+                      //    Uri.parse(dotenv.get('BASE_URL') + "write_comments"),
+                      //    headers: headers,
+                      //    body: body);
+                      //if (_res.statusCode == 200) {
+                      //  Navigator.pushReplacement(
+                      //      context,
+                      //      MaterialPageRoute(
+                      //          builder: (context) => add_post()));
+                      //};
+                    }),
               ]),
             ),
           )),

@@ -33,6 +33,7 @@ class _my_post extends State<my_post> {
     final prefs = await SharedPreferences.getInstance();
     num = prefs.getString('num');
   }
+
   void initState() {
     var count = 0;
     checkToken();

@@ -5,7 +5,7 @@ const methodOverride = require('method-override');
 const bodyParser = require('body-parser');
 const { request } = require('express');
 const jwt = require('jsonwebtoken');
-
+const ObjectId = require('mongodb').ObjectId;
 app.use(express.json());
 app.use(express.urlencoded({
     extended: true
@@ -149,43 +149,121 @@ app.post('/write_add', (req, res) => {
     }
 });
 
-
 //글띄우기
 app.post('/board_list', (req, res) => {
-    console.log(req.body);
     if (req.body.num != '')
     {
             switch(req.body.board)
             {
             case '자유게시판':
-                db_board.collection('board_list_free').find({}).skip(req.body.count).limit(10).toArray((err, result) => {
+                db_board.collection('board_list_free').find({}).sort({_id: -1}).skip(req.body.count).limit(10).toArray((err, result) => {
                     res.status(200).send(result);
+                    console.log(result);
                 });
                 break;
             case '술 먹을 사람?':
-                db_board.collection('drink_beer').find({}).skip(req.body.count).limit(10).toArray((err, result) => {
+                db_board.collection('drink_beer').find({}).sort({_id: -1}).skip(req.body.count).limit(10).toArray((err, result) => {
                     res.status(200).send(result);
                 });
                 break;
             case '밥 먹을 사람?':
-                db_board.collection('babmuk').find({}).skip(req.body.count).limit(10).toArray((err, result) => {
+                db_board.collection('babmuk').find({}).sort({_id: -1}).skip(req.body.count).limit(10).toArray((err, result) => {
                     res.status(200).send(result);
                 });
                 break;
             case '택시 탈 사람?':
-                db_board.collection('taxi').find({}).skip(req.body.count).limit(10).toArray((err, result) => {
+                db_board.collection('taxi').find({}).sort({_id: -1}).skip(req.body.count).limit(10).toArray((err, result) => {
                     res.status(200).send(result);
                 });
                 break;
             case '안양인들의 강화마켓':
-                db_board.collection('market').find({}).skip(req.body.count).limit(10).toArray((err, result) => {
+                db_board.collection('market').find({}).sort({_id: -1}).skip(req.body.count).limit(10).toArray((err, result) => {
                     res.status(200).send(result);
                 });
                 break;
             case '피드백':
-                db_board.collection('feedback').find({}).skip(req.body.count).limit(10).toArray((err, result) => {
+                db_board.collection('feedback').find({}).sort({_id: -1}).skip(req.body.count).limit(10).toArray((err, result) => {
                     res.status(200).send(result);
                 });
+                break;
+            }
+    }
+    else{
+        res.status(400).send('false');;
+    }
+});
+app.post('/add_post',(req,res)=>{
+    console.log(req.body);
+    switch(req.body.board)
+            {
+            case '자유게시판':
+                console.log(req.body.id);
+                db_board.collection('board_list_free').findOne( { _id : ObjectId(req.body.id)},(err,result)=>{
+                    res.status(200).json({result});
+                    console.log(111);
+                    console.log(result);
+                    console.log(1);
+                });
+                break;
+            case '술 먹을 사람?':
+                db_board.collection('drink_beer').findOne( { _id : ObjectId(req.body.id)} ).toArray((err,result)=>{
+                    res.status(200).send(result);        
+                });
+                break;
+            case '밥 먹을 사람?':
+                db_board.collection('babmuk').find({_id:req.body.id}).toArray((err,result)=>{
+                    res.status(200).send(result);        
+                });
+                break;
+            case '택시 탈 사람?':
+                db_board.collection('taxi').find({_id:req.body.id}).toArray((err,result)=>{
+                    res.status(200).send(result);        
+                });
+                break;
+            case '안양인들의 강화마켓':
+                db_board.collection('market').find({_id:req.body.id}).toArray((err,result)=>{
+                    res.status(200).send(result);        
+                });
+                break;
+            case '피드백':
+                db_board.collection('feedback').find({_id:req.body.id}).toArray((err,result)=>{
+                    res.status(200).send(result);        
+                });
+                break;
+    }
+});
+
+//댓글 쓰기
+app.post('/write_comments', (req, res) => {
+    console.log(req.body);
+    if (req.body.comments != '')
+    {
+            const data = {comments: req.body.comments,board:req.body.board };
+            switch(req.body.board)
+            {
+            case '자유게시판':
+                db_board.collection('board_list_free').insertOne(data);
+                res.status(200).send('true');
+                break;
+            case '술 먹을 사람?':
+                db_board.collection('drink_beer').insertOne(data)
+                res.status(200).send('true');
+                break;
+            case '밥 먹을 사람?':
+                db_board.collection('babmuk').insertOne(data)
+                res.status(200).send('true');
+                break;
+            case '택시 탈 사람?':
+                db_board.collection('taxi').insertOne(data)
+                res.status(200).send('true');
+                break;
+            case '안양인들의 강화마켓':
+                db_board.collection('market').insertOne(data)
+                res.status(200).send('true');
+                break;
+            case '피드백':
+                db_board.collection('feedback').insertOne(data)
+                res.status(200).send('true');
                 break;
             }
     }

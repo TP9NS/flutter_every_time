@@ -38,7 +38,6 @@ class _babmuk extends State<babmuk> {
   List<String> post = new List.empty(growable: true);
   List<String> post1 = new List.empty(growable: true);
 
-
   final ScrollController _scrollController = ScrollController();
 
   @override
