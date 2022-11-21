@@ -37,9 +37,10 @@ class _drink_beer extends State<drink_beer> {
 
   List<String> post = new List.empty(growable: true);
   List<String> post1 = new List.empty(growable: true);
+  List<String> id = new List.empty(growable: true);
 
   final ScrollController _scrollController = ScrollController();
-
+  //var index = 0;
   @override
   checkToken() async {
     final prefs = await SharedPreferences.getInstance();
@@ -89,6 +90,7 @@ class _drink_beer extends State<drink_beer> {
         setState(() {
           post.add(list[i]['title']);
           post1.add(list[i]['contents']);
+          id.add(list[i]['_id']);
           count++;
         });
       }
@@ -191,7 +193,7 @@ class _drink_beer extends State<drink_beer> {
                       padding: EdgeInsets.fromLTRB(30, 55, 0, 0),
                       //padding: EdgeInsets.fromLTRB(left, top, right, bottom),
                       child: Text(
-                        '술 마실 사람?',
+                        '술 먹을 사람?',
                         style: Style_helpT,
                       ),
                     ),
@@ -281,11 +283,17 @@ class _drink_beer extends State<drink_beer> {
                                     ],
                                   ),
                                   child: OutlinedButton(
-                                    onPressed: () {
+                                    onPressed: () async {
                                       Navigator.of(context)
                                           .push(MaterialPageRoute(
                                         builder: (context) => add_post(),
                                       ));
+                                      final prefs =
+                                          await SharedPreferences.getInstance();
+                                      await prefs.setString('_id', id[index]);
+
+                                      await prefs.setString(
+                                          'board', "술 먹을 사람?");
                                     },
                                     child: Container(
                                       width: double.infinity,
@@ -299,16 +307,27 @@ class _drink_beer extends State<drink_beer> {
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.start,
                                             children: [
-                                              Text(
-                                                post[index],
-                                                style: Style_inTitle,
+                                              SizedBox(
+                                                child: Text(
+                                                  post[index],
+                                                  style: Style_inTitle,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  maxLines: 1,
+                                                ),
                                               ),
                                               SizedBox(
                                                 height: 5,
                                               ),
-                                              Text(
-                                                post1[index],
-                                                style: Style_mini,
+                                              SizedBox(
+                                                width: 150,
+                                                child: Text(
+                                                  post1[index],
+                                                  style: Style_mini,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  maxLines: 1,
+                                                ),
                                               ),
                                             ],
                                           ),

@@ -228,7 +228,6 @@ class _add_post extends State<add_post> {
                               ),
                             ],
                           ),
-                          FutureBuilder(future: infoSend(), builder: builder),
                           Container(
                             decoration:
                                 BoxDecoration(color: Colors.white, boxShadow: [
@@ -239,38 +238,77 @@ class _add_post extends State<add_post> {
                                   offset: Offset(3, 3))
                             ]),
                             padding: EdgeInsets.all(10),
-                            child: Column(children: [
-                              Text(
-                                '$title',
-                                style: TextStyle(fontSize: 30),
-                              ),
-                              Text(
-                                '$contents',
-                                maxLines: 5,
-                              ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  IconButton(
-                                      onPressed: () {},
-                                      icon: Icon(
-                                        Icons.favorite_border,
-                                        color: Colors.grey,
-                                      )),
-                                  Text('0'),
-                                  SizedBox(
-                                    width: 10,
-                                  ),
-                                  IconButton(
-                                      onPressed: () {},
-                                      icon: Icon(
-                                        Icons.chat_outlined,
-                                        color: Colors.grey,
-                                      )),
-                                  Text('0'),
-                                ],
-                              )
-                            ]),
+                            child: FutureBuilder(
+                                future: _future(),
+                                builder: (BuildContext context,
+                                    AsyncSnapshot snapshot) {
+                                  if (snapshot.hasData == false) {
+                                    return CircularProgressIndicator(); // CircularProgressIndicator : 로딩 에니메이션
+                                  }
+                                  //error가 발생하게 될 경우 반환하게 되는 부분
+                                  else if (snapshot.hasError) {
+                                    return Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Text(
+                                        'Error: ${snapshot.error}', // 에러명을 텍스트에 뿌려줌
+                                        style: TextStyle(fontSize: 15),
+                                      ),
+                                    );
+                                  } else {
+                                    return Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          SizedBox(
+                                            child: Expanded(
+                                              flex: 1,
+                                              child: SingleChildScrollView(
+                                                scrollDirection: Axis.vertical,
+                                                child: Text(
+                                                  '$title',
+                                                  style:
+                                                      TextStyle(fontSize: 30),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            child: Expanded(
+                                              flex: 1,
+                                              child: SingleChildScrollView(
+                                                scrollDirection: Axis.vertical,
+                                                child: Text(
+                                                  '$contents',
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.end,
+                                            children: [
+                                              IconButton(
+                                                  onPressed: () {},
+                                                  icon: Icon(
+                                                    Icons.favorite_border,
+                                                    color: Colors.grey,
+                                                  )),
+                                              Text('0'),
+                                              SizedBox(
+                                                width: 10,
+                                              ),
+                                              IconButton(
+                                                  onPressed: () {},
+                                                  icon: Icon(
+                                                    Icons.chat_outlined,
+                                                    color: Colors.grey,
+                                                  )),
+                                              Text('0'),
+                                            ],
+                                          )
+                                        ]);
+                                  }
+                                }),
                           )
                         ]),
                       ))),
@@ -405,4 +443,10 @@ class _add_post extends State<add_post> {
           )),
     );
   }
+}
+
+Future _future() async {
+  await Future.delayed(Duration(seconds: 1));
+  return "데이터 받아옴";
+  // 1초를 강제적으로 딜레이 시킨다.
 }

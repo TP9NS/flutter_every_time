@@ -233,8 +233,9 @@ class _write_add extends State<write_add> {
                                   enabledBorder: InputBorder.none,
                                   focusedBorder: InputBorder.none,
                                   hintText: '제목',
-                                  hintStyle: TextStyle(fontSize: 30),
+                                  hintStyle: TextStyle(fontSize: 20),
                                 ),
+                                maxLength: 10,
                                 controller: titleController,
                               ),
                               TextField(
@@ -244,6 +245,7 @@ class _write_add extends State<write_add> {
                                     focusedBorder: InputBorder.none,
                                     hintText: '내용'),
                                 controller: contentsController,
+                                maxLength: 150,
                               ),
                             ]),
                           )

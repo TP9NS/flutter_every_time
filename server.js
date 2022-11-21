@@ -197,39 +197,34 @@ app.post('/add_post',(req,res)=>{
     switch(req.body.board)
             {
             case '자유게시판':
-                console.log(req.body.id);
                 db_board.collection('board_list_free').findOne( { _id : ObjectId(req.body.id)},(err,result)=>{
                     res.status(200).json({result});
-                    console.log(111);
-                    console.log(result);
-                    console.log(1);
                 });
                 break;
             case '술 먹을 사람?':
-                db_board.collection('drink_beer').findOne( { _id : ObjectId(req.body.id)} ).toArray((err,result)=>{
-                    res.status(200).send(result);        
+                db_board.collection('drink_beer').findOne( { _id : ObjectId(req.body.id)},(err,result)=>{
+                    res.status(200).json({result});
                 });
                 break;
             case '밥 먹을 사람?':
-                db_board.collection('babmuk').find({_id:req.body.id}).toArray((err,result)=>{
-                    res.status(200).send(result);        
+                db_board.collection('babmuk').findOne( { _id : ObjectId(req.body.id)},(err,result)=>{
+                    res.status(200).json({result});
                 });
                 break;
             case '택시 탈 사람?':
-                db_board.collection('taxi').find({_id:req.body.id}).toArray((err,result)=>{
-                    res.status(200).send(result);        
+                db_board.collection('taxi').findOne( { _id : ObjectId(req.body.id)},(err,result)=>{
+                    res.status(200).json({result});
                 });
                 break;
             case '안양인들의 강화마켓':
-                db_board.collection('market').find({_id:req.body.id}).toArray((err,result)=>{
-                    res.status(200).send(result);        
+                db_board.collection('market').findOne( { _id : ObjectId(req.body.id)},(err,result)=>{
+                    res.status(200).json({result});
                 });
                 break;
             case '피드백':
-                db_board.collection('feedback').find({_id:req.body.id}).toArray((err,result)=>{
-                    res.status(200).send(result);        
+                db_board.collection('feedback').findOne( { _id : ObjectId(req.body.id)},(err,result)=>{
+                    res.status(200).json({result});
                 });
-                break;
     }
 });
 
