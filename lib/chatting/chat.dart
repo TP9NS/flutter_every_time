@@ -1,4 +1,7 @@
+import 'dart:html';
+import 'dart:io';
 import 'package:every/chatting/chat_message.dart';
+import 'package:every/chatting/controller.dart';
 import 'package:every/loggin/log.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -6,6 +9,7 @@ import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:logger/logger.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 class Chat extends StatefulWidget {
   const Chat({super.key});
@@ -20,13 +24,30 @@ class _Chat extends State<Chat> {
   TextEditingController _textEditingController = TextEditingController();
   @override
   var num;
-
+  late IO.Socket socket;
+  ChatController chatController = ChatController();
   checkToken() async {
     final prefs = await SharedPreferences.getInstance();
     num = prefs.getString('num');
   }
+
   void initState() {
     checkToken();
+    socket = IO.io(
+        'http://localhost:4000',
+        IO.OptionBuilder()
+            .setTransports(['WebSocket'])
+            .disableAutoConnect()
+            .build());
+    socket.connect();
+    setUpSocketListener();
+    super.initState();
+  }
+
+  void setUpSocketListener() {
+    socket.on('message-receive', (data) {
+      print(data);
+    });
   }
 
   Widget build(BuildContext context) {
@@ -123,9 +144,11 @@ class _Chat extends State<Chat> {
 
   void _handleSubmitted(String text) {
     Logger().d(text);
-    _textEditingController.clear();
-    chatmessage newchat = chatmessage(text);
     setState(() {
+      var messagejson = {"message": text, "sent": socket.id};
+      socket.emit('message', messagejson);
+      chatmessage newchat = chatmessage(text);
+      _textEditingController.clear();
       _chat.add(newchat);
     });
     _textEditingController.clear();

@@ -14,12 +14,8 @@ class chatmessage extends StatelessWidget {
   }) : super(key: Key);
 
   @override
-  
-void initState() {
-   
-  }
+  void initState() {}
   Widget build(BuildContext context) {
-    
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 3.0, vertical: 2.0),
       child: Container(

@@ -1,10 +1,30 @@
 const express = require('express');
 const MongoClient = require('mongodb').MongoClient;
 const app = express();
+const PORT=process.env.PORT||4000;
+const server= app.listen(PORT,()=>{
+    console.log('Server is started on',PORT)
+})
+//socketIO
+const io = require('socket.io')(server);
+io.on('connection',(socket)=>{
+    console.log("Connected Successfully",socket.id)
+    socket.on('disconnect',()=>{
+        console.log("disconnected",socket.id)
+    });
+    socket.on('message',(data)=>
+    {
+        console.log(data);
+        socket.broadcast.emit('message-receive',data)
+    }
+    );
+});
+
 const methodOverride = require('method-override');
 const bodyParser = require('body-parser');
 const { request } = require('express');
 const jwt = require('jsonwebtoken');
+const { emit } = require('nodemon');
 const ObjectId = require('mongodb').ObjectId;
 app.use(express.json());
 app.use(express.urlencoded({
