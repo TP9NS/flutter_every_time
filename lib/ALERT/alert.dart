@@ -52,12 +52,8 @@ class _alert extends State<alert> {
                 children: [
                   IconButton(
                     onPressed: () {
-                      Navigator.pushAndRemoveUntil(context,
-                          MaterialPageRoute(builder: (BuildContext context) {
-                        return chat_list();
-                      }), (r) {
-                        return false;
-                      });
+                      Navigator.of(context).pushReplacement(
+                          MaterialPageRoute(builder: (context) => chat_list()));
                     },
                     icon: Icon(
                       Icons.question_answer_rounded,
@@ -68,12 +64,8 @@ class _alert extends State<alert> {
                   ),
                   IconButton(
                     onPressed: () {
-                      Navigator.pushAndRemoveUntil(context,
-                          MaterialPageRoute(builder: (BuildContext context) {
-                        return board_list();
-                      }), (r) {
-                        return false;
-                      });
+                      Navigator.of(context).pushReplacement(MaterialPageRoute(
+                          builder: (context) => board_list()));
                     },
                     icon: Icon(
                       Icons.assignment_outlined,
@@ -84,12 +76,8 @@ class _alert extends State<alert> {
                   ),
                   IconButton(
                       onPressed: () {
-                        Navigator.pushAndRemoveUntil(context,
-                            MaterialPageRoute(builder: (BuildContext context) {
-                          return home();
-                        }), (r) {
-                          return false;
-                        });
+                        Navigator.of(context).pushReplacement(
+                            MaterialPageRoute(builder: (context) => home()));
                       },
                       icon: Icon(Icons.home, size: 50),
                       padding: EdgeInsets.zero,
@@ -101,12 +89,8 @@ class _alert extends State<alert> {
                       color: Colors.black),
                   IconButton(
                       onPressed: () {
-                        Navigator.pushAndRemoveUntil(context,
-                            MaterialPageRoute(builder: (BuildContext context) {
-                          return setting();
-                        }), (r) {
-                          return false;
-                        });
+                        Navigator.of(context).pushReplacement(
+                            MaterialPageRoute(builder: (context) => setting()));
                       },
                       icon: Icon(Icons.settings, size: 50),
                       padding: EdgeInsets.zero,

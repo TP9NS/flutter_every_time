@@ -136,13 +136,9 @@ class _log_inState extends State<log_in> {
                     const Padding(padding: EdgeInsets.all(20)),
                     ElevatedButton(
                         onPressed: () {
-                          Navigator.pushAndRemoveUntil(context,
+                          Navigator.of(context).pushReplacement(
                               MaterialPageRoute(
-                                  builder: (BuildContext context) {
-                            return find_pas();
-                          }), (r) {
-                            return false;
-                          });
+                                  builder: (context) => find_pas()));
                         },
                         child: const Text("비밀번호 찾기"),
                         style: ElevatedButton.styleFrom(primary: Colors.grey)),

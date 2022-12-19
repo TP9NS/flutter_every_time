@@ -41,12 +41,8 @@ class _setting extends State<setting> {
                   children: [
                     IconButton(
                       onPressed: () {
-                        Navigator.pushAndRemoveUntil(context,
-                            MaterialPageRoute(builder: (BuildContext context) {
-                          return chat_list();
-                        }), (r) {
-                          return false;
-                        });
+                        Navigator.of(context).pushReplacement(MaterialPageRoute(
+                            builder: (context) => chat_list()));
                       },
                       icon: Icon(
                         Icons.question_answer_rounded,
@@ -57,12 +53,8 @@ class _setting extends State<setting> {
                     ),
                     IconButton(
                       onPressed: () {
-                        Navigator.pushAndRemoveUntil(context,
-                            MaterialPageRoute(builder: (BuildContext context) {
-                          return board_list();
-                        }), (r) {
-                          return false;
-                        });
+                        Navigator.of(context).pushReplacement(MaterialPageRoute(
+                            builder: (context) => board_list()));
                       },
                       icon: Icon(Icons.assignment_outlined,
                           size: 50, color: Colors.grey),
@@ -70,26 +62,16 @@ class _setting extends State<setting> {
                     ),
                     IconButton(
                         onPressed: () {
-                          Navigator.pushAndRemoveUntil(context,
-                              MaterialPageRoute(
-                                  builder: (BuildContext context) {
-                            return home();
-                          }), (r) {
-                            return false;
-                          });
+                          Navigator.of(context).pushReplacement(
+                              MaterialPageRoute(builder: (context) => home()));
                         },
                         icon: Icon(Icons.home, size: 50),
                         padding: EdgeInsets.zero,
                         color: Colors.grey),
                     IconButton(
                         onPressed: () {
-                          Navigator.pushAndRemoveUntil(context,
-                              MaterialPageRoute(
-                                  builder: (BuildContext context) {
-                            return alert();
-                          }), (r) {
-                            return false;
-                          });
+                          Navigator.of(context).pushReplacement(
+                              MaterialPageRoute(builder: (context) => alert()));
                         },
                         icon: Icon(Icons.notifications, size: 50),
                         padding: EdgeInsets.zero,

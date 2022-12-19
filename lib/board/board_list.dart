@@ -62,12 +62,8 @@ class _Board_list extends State<board_list> {
                 children: [
                   IconButton(
                     onPressed: () {
-                      Navigator.pushAndRemoveUntil(context,
-                          MaterialPageRoute(builder: (BuildContext context) {
-                        return chat_list();
-                      }), (r) {
-                        return false;
-                      });
+                      Navigator.of(context).pushReplacement(
+                          MaterialPageRoute(builder: (context) => chat_list()));
                     },
                     icon: Icon(
                       Icons.question_answer_rounded,
@@ -86,36 +82,24 @@ class _Board_list extends State<board_list> {
                   ),
                   IconButton(
                       onPressed: () {
-                        Navigator.pushAndRemoveUntil(context,
-                            MaterialPageRoute(builder: (BuildContext context) {
-                          return home();
-                        }), (r) {
-                          return false;
-                        });
+                        Navigator.of(context).pushReplacement(
+                            MaterialPageRoute(builder: (context) => home()));
                       },
                       icon: Icon(Icons.home, size: 50),
                       padding: EdgeInsets.zero,
                       color: Colors.grey),
                   IconButton(
                       onPressed: () {
-                        Navigator.pushAndRemoveUntil(context,
-                            MaterialPageRoute(builder: (BuildContext context) {
-                          return alert();
-                        }), (r) {
-                          return false;
-                        });
+                        Navigator.of(context).pushReplacement(
+                            MaterialPageRoute(builder: (context) => alert()));
                       },
                       icon: Icon(Icons.notifications, size: 50),
                       padding: EdgeInsets.zero,
                       color: Colors.grey),
                   IconButton(
                       onPressed: () {
-                        Navigator.pushAndRemoveUntil(context,
-                            MaterialPageRoute(builder: (BuildContext context) {
-                          return setting();
-                        }), (r) {
-                          return false;
-                        });
+                        Navigator.of(context).pushReplacement(
+                            MaterialPageRoute(builder: (context) => setting()));
                       },
                       icon: Icon(Icons.settings, size: 50),
                       padding: EdgeInsets.zero,
@@ -281,13 +265,9 @@ class _Board_list extends State<board_list> {
                         width: 170,
                         child: TextButton(
                           onPressed: () {
-                            Navigator.pushAndRemoveUntil(context,
+                            Navigator.of(context).pushReplacement(
                                 MaterialPageRoute(
-                                    builder: (BuildContext context) {
-                              return drink_beer();
-                            }), (r) {
-                              return false;
-                            });
+                                    builder: (context) => drink_beer()));
                           },
                           child: const Text(
                             "술 먹을 사람?",
@@ -337,13 +317,9 @@ class _Board_list extends State<board_list> {
                         width: 170,
                         child: TextButton(
                           onPressed: () {
-                            Navigator.pushAndRemoveUntil(context,
+                            Navigator.of(context).pushReplacement(
                                 MaterialPageRoute(
-                                    builder: (BuildContext context) {
-                              return babmuk();
-                            }), (r) {
-                              return false;
-                            });
+                                    builder: (context) => babmuk()));
                           },
                           child: const Text(
                             "밥 먹을 사람?",
@@ -393,13 +369,9 @@ class _Board_list extends State<board_list> {
                         width: 170,
                         child: TextButton(
                           onPressed: () {
-                            Navigator.pushAndRemoveUntil(context,
+                            Navigator.of(context).pushReplacement(
                                 MaterialPageRoute(
-                                    builder: (BuildContext context) {
-                              return taxi();
-                            }), (r) {
-                              return false;
-                            });
+                                    builder: (context) => taxi()));
                           },
                           child: const Text(
                             "택시 탈 사람?",
@@ -449,13 +421,9 @@ class _Board_list extends State<board_list> {
                         width: 170,
                         child: TextButton(
                           onPressed: () {
-                            Navigator.pushAndRemoveUntil(context,
+                            Navigator.of(context).pushReplacement(
                                 MaterialPageRoute(
-                                    builder: (BuildContext context) {
-                              return market();
-                            }), (r) {
-                              return false;
-                            });
+                                    builder: (context) => market()));
                           },
                           child: const Text(
                             "아냥이들의 강화마켓",
@@ -502,13 +470,9 @@ class _Board_list extends State<board_list> {
                         width: 170,
                         child: TextButton(
                           onPressed: () {
-                            Navigator.pushAndRemoveUntil(context,
+                            Navigator.of(context).pushReplacement(
                                 MaterialPageRoute(
-                                    builder: (BuildContext context) {
-                              return Board_list_free();
-                            }), (r) {
-                              return false;
-                            });
+                                    builder: (context) => Board_list_free()));
                           },
                           child: const Text(
                             "자유게시판",
@@ -558,13 +522,9 @@ class _Board_list extends State<board_list> {
                         width: 170,
                         child: TextButton(
                           onPressed: () {
-                            Navigator.pushAndRemoveUntil(context,
+                            Navigator.of(context).pushReplacement(
                                 MaterialPageRoute(
-                                    builder: (BuildContext context) {
-                              return feedback();
-                            }), (r) {
-                              return false;
-                            });
+                                    builder: (context) => feedback()));
                           },
                           child: const Text(
                             "피드백",
@@ -611,13 +571,9 @@ class _Board_list extends State<board_list> {
                         width: 170,
                         child: TextButton(
                           onPressed: () {
-                            Navigator.pushAndRemoveUntil(context,
+                            Navigator.of(context).pushReplacement(
                                 MaterialPageRoute(
-                                    builder: (BuildContext context) {
-                              return NOTICE();
-                            }), (r) {
-                              return false;
-                            });
+                                    builder: (context) => NOTICE()));
                           },
                           child: const Text(
                             "공지사항",

@@ -61,12 +61,8 @@ class _my_comment extends State<my_comment> {
                 children: [
                   IconButton(
                     onPressed: () {
-                      Navigator.pushAndRemoveUntil(context,
-                          MaterialPageRoute(builder: (BuildContext context) {
-                        return chat_list();
-                      }), (r) {
-                        return false;
-                      });
+                      Navigator.of(context).pushReplacement(
+                          MaterialPageRoute(builder: (context) => chat_list()));
                     },
                     icon: Icon(
                       Icons.question_answer_rounded,
@@ -77,12 +73,8 @@ class _my_comment extends State<my_comment> {
                   ),
                   IconButton(
                     onPressed: () {
-                      Navigator.pushAndRemoveUntil(context,
-                          MaterialPageRoute(builder: (BuildContext context) {
-                        return board_list();
-                      }), (r) {
-                        return false;
-                      });
+                      Navigator.of(context).pushReplacement(MaterialPageRoute(
+                          builder: (context) => board_list()));
                     },
                     icon: Icon(
                       Icons.assignment_outlined,
@@ -92,36 +84,24 @@ class _my_comment extends State<my_comment> {
                   ),
                   IconButton(
                       onPressed: () {
-                        Navigator.pushAndRemoveUntil(context,
-                            MaterialPageRoute(builder: (BuildContext context) {
-                          return home();
-                        }), (r) {
-                          return false;
-                        });
+                        Navigator.of(context).pushReplacement(
+                            MaterialPageRoute(builder: (context) => home()));
                       },
                       icon: Icon(Icons.home, size: 50),
                       padding: EdgeInsets.zero,
                       color: Colors.grey),
                   IconButton(
                       onPressed: () {
-                        Navigator.pushAndRemoveUntil(context,
-                            MaterialPageRoute(builder: (BuildContext context) {
-                          return alert();
-                        }), (r) {
-                          return false;
-                        });
+                        Navigator.of(context).pushReplacement(
+                            MaterialPageRoute(builder: (context) => alert()));
                       },
                       icon: Icon(Icons.notifications, size: 50),
                       padding: EdgeInsets.zero,
                       color: Colors.grey),
                   IconButton(
                       onPressed: () {
-                        Navigator.pushAndRemoveUntil(context,
-                            MaterialPageRoute(builder: (BuildContext context) {
-                          return setting();
-                        }), (r) {
-                          return false;
-                        });
+                        Navigator.of(context).pushReplacement(
+                            MaterialPageRoute(builder: (context) => setting()));
                       },
                       icon: Icon(Icons.settings, size: 50),
                       padding: EdgeInsets.zero,
@@ -159,13 +139,9 @@ class _my_comment extends State<my_comment> {
                         ),
                         child: OutlinedButton(
                           onPressed: () {
-                            Navigator.pushAndRemoveUntil(context,
+                            Navigator.of(context).pushReplacement(
                                 MaterialPageRoute(
-                                    builder: (BuildContext context) {
-                              return board_list();
-                            }), (r) {
-                              return false;
-                            });
+                                    builder: (context) => board_list()));
                           },
                           child: Icon(
                             Icons.chevron_left_rounded,
